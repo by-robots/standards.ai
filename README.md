@@ -2,6 +2,8 @@
 
 A collection of AI rules templates and configuration files for AI-powered coding assistants.
 
+The rules are my own preference — go ahead and them customise to your needs.
+
 ## Overview
 
 This repository provides ready-to-use configuration templates that define coding standards, project conventions, and behavioral guidelines for AI tools. Drop them into your projects to get consistent, high-quality AI assistance out of the box.
