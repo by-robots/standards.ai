@@ -1,38 +1,73 @@
 # standards.ai
 
-A collection of AI rules templates and configuration files for AI-powered coding assistants.
+Opinionated configuration templates for AI coding assistants. Drop them
+into a project to get consistent, security-conscious AI assistance without
+repeating yourself.
 
-The rules are my own preference — go ahead and them customise to your needs.
+The rules are my own preferences — go ahead and customise them to your
+needs.
 
-## Overview
+## What's in the templates
 
-This repository provides ready-to-use configuration templates that define coding standards, project conventions, and behavioral guidelines for AI tools. Drop them into your projects to get consistent, high-quality AI assistance out of the box.
+Each template covers:
 
-## Supported Tools
+- **Security** — hard limits on secrets, destructive operations, and
+  injection risks.
+- **Communication** — tone, language (UK English), and how the AI should
+  propose changes.
+- **Coding conventions** — general principles plus language-specific rules
+  for Ruby/Rails, JavaScript, SCSS, and database migrations.
+- **Git workflow** — Conventional Commits, atomic changes, no AI
+  co-author entries.
+- **Project context** — a placeholder section you fill in per repository
+  (stack, versions, architecture, deployment).
 
-| Tool | Config File / Directory |
-|------|------------------------|
-| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | `CLAUDE.md` |
-| [Cursor](https://www.cursor.com/) | `.cursor/` |
+The templates are opinionated toward a Ruby on Rails stack. If your
+project uses a different stack, strip or replace the language-specific
+sections.
+
+## Supported tools
+
+| Tool | Template file | Destination |
+|------|--------------|-------------|
+| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | `templates/CLAUDE.md` | `CLAUDE.md` in project root |
+| [Cursor](https://www.cursor.com/) | `templates/.cursorrules` | `.cursorrules` in project root |
+
+The two templates share the same core rules. Each has a short
+tool-specific section (`Claude Code Specifics` / `Cursor Specifics`) for
+behaviour that only applies to that tool.
 
 ## Usage
 
-Copy the relevant configuration files into the root of your project:
+Copy the relevant file into the root of your project:
 
 ```sh
 # Claude Code
 cp templates/CLAUDE.md /path/to/your/project/CLAUDE.md
 
 # Cursor
-cp -r templates/.cursor /path/to/your/project/.cursor
+cp templates/.cursorrules /path/to/your/project/.cursorrules
 ```
 
-Customize the templates to match your project's stack, conventions, and preferences.
+Then edit the **Project Context** section at the bottom to describe your
+stack, versions, key dependencies, and architecture.
+
+## Repository structure
+
+```
+templates/
+  CLAUDE.md        # Template for Claude Code
+  .cursorrules     # Template for Cursor
+CLAUDE.md          # Rules for working on this repo itself (not a template)
+```
 
 ## Contributing
 
-Contributions are welcome. If you have templates for additional AI tools or improvements to existing ones, feel free to open a PR.
+Contributions are welcome. If you have templates for additional AI tools
+or improvements to existing ones, open a PR.
 
-## License
+## Licence
 
-MIT with No-Resale Restriction — free to use, modify, and distribute, but not to sell as a standalone product. See [LICENSE](LICENSE) for details.
+MIT with No-Resale Restriction — free to use, modify, and distribute,
+but not to sell as a standalone product. See [LICENSE](LICENSE) for
+details.
