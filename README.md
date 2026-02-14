@@ -32,10 +32,10 @@ sections.
 |------|--------------|-------------|
 | [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | `templates/CLAUDE.md` | `CLAUDE.md` in project root |
 | [Cursor](https://www.cursor.com/) | `templates/.cursorrules` | `.cursorrules` in project root |
+| [Google Antigravity](https://antigravity.google/) | `templates/GEMINI.md` | `GEMINI.md` in project root |
 
-The two templates share the same core rules. Each has a short
-tool-specific section (`Claude Code Specifics` / `Cursor Specifics`) for
-behaviour that only applies to that tool.
+The templates share the same core rules. Each has a short tool-specific
+section for behaviour that only applies to that tool.
 
 ## Usage
 
@@ -47,6 +47,9 @@ cp templates/CLAUDE.md /path/to/your/project/CLAUDE.md
 
 # Cursor
 cp templates/.cursorrules /path/to/your/project/.cursorrules
+
+# Google Antigravity
+cp templates/GEMINI.md /path/to/your/project/GEMINI.md
 ```
 
 Then edit the **Project Context** section at the bottom to describe your
@@ -58,6 +61,7 @@ stack, versions, key dependencies, and architecture.
 templates/
   CLAUDE.md        # Template for Claude Code
   .cursorrules     # Template for Cursor
+  GEMINI.md        # Template for Google Antigravity
 CLAUDE.md          # Rules for working on this repo itself (not a template)
 ```
 
