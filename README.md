@@ -33,9 +33,13 @@ sections.
 | [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | `templates/CLAUDE.md` | `CLAUDE.md` in project root |
 | [Cursor](https://www.cursor.com/) | `templates/.cursorrules` | `.cursorrules` in project root |
 | [Google Antigravity](https://antigravity.google/) | `templates/GEMINI.md` | `GEMINI.md` in project root |
+| Any tool supporting AGENTS.md | `templates/AGENTS.md` | `AGENTS.md` in project root |
 
-The templates share the same core rules. Each has a short tool-specific
-section for behaviour that only applies to that tool.
+The tool-specific templates share the same core rules, each with a short
+tool-specific section for behaviour that only applies to that tool.
+`AGENTS.md` is a tool-agnostic alternative with no tool-specific section
+— use it when your tool supports it or when you want a single file that
+works across multiple tools.
 
 ## Usage
 
@@ -50,6 +54,9 @@ cp templates/.cursorrules /path/to/your/project/.cursorrules
 
 # Google Antigravity
 cp templates/GEMINI.md /path/to/your/project/GEMINI.md
+
+# Tool-agnostic
+cp templates/AGENTS.md /path/to/your/project/AGENTS.md
 ```
 
 Then edit the **Project Context** section at the bottom to describe your
@@ -62,6 +69,7 @@ templates/
   CLAUDE.md        # Template for Claude Code
   .cursorrules     # Template for Cursor
   GEMINI.md        # Template for Google Antigravity
+  AGENTS.md        # Tool-agnostic template
 CLAUDE.md          # Rules for working on this repo itself (not a template)
 ```
 
