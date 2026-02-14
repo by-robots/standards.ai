@@ -87,3 +87,4 @@ left as a placeholder for per-project customisation.
 - Keep commits atomic — one logical change per commit.
 - When a change touches multiple template files, include all affected files
   in the same commit.
+- Do not add co-author entries for AI tools in commit messages.

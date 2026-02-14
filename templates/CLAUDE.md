@@ -144,6 +144,7 @@
 - Keep commits atomic — one logical change per commit.
 - Write clear commit descriptions when the change is non-obvious.
 - Do not amend or force-push shared branches without asking.
+- Do not add co-author entries for AI tools in commit messages.
 
 ## Project Context
 
