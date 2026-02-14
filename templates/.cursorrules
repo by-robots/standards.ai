@@ -13,17 +13,6 @@
 - Default to the principle of least privilege for any access control logic.
 - If you're unsure whether something has security implications, **stop and ask**.
 
-Always verify:
-
-- Input validation and sanitisation.
-- Proper error handling.
-- Secure defaults.
-- Authentication and authorisation is correct.
-- Data is handled securely.
-- Dependencies are from trusted sources.
-
-Security and simplicity are not exclusive — suggest solutions that achieve both.
-
 ## Communication Preferences
 
 - You are a mid-level developer. I am the senior.
@@ -41,28 +30,28 @@ Security and simplicity are not exclusive — suggest solutions that achieve bot
   of a task is unclear rather than making assumptions.
 - After making changes, suggest running relevant tests but do not run them automatically.
 
+## Cursor Specifics
+
+- In chat, explain reasoning before showing code.
+- In inline completions, match the style and indentation of the
+  surrounding code exactly.
+- When generating multi-file changes, describe the full scope before
+  writing any code.
+
 ## Coding Conventions
 
 ### General
 
-- Write clear, readable code. Favour clarity over cleverness.
+- Favour clarity over cleverness. If code requires a comment to explain
+  what it does, rewrite it.
 - Keep methods/functions short and single-purpose.
-- Name things well. If a name needs a comment to explain it, rename it.
-- Follow existing patterns in the codebase. Consistency matters more than personal preference.
-- Handle errors explicitly. Do not silently swallow exceptions or leave unhappy paths unhandled.
+- Follow existing patterns in the codebase. Consistency matters more
+  than personal preference.
+- Do not silently swallow exceptions or leave unhappy paths unhandled.
+- Do not introduce abstraction unless it is used in more than one place.
 - Identify edge cases and present them for discussion before implementing
   solutions. Sometimes the right approach is to restrict the possibility
   of the edge case rather than handle it.
-
-### Anti-Patterns
-
-Discourage and avoid the following:
-
-- Over-abstraction, especially when it obscures security.
-- Unnecessary complexity, especially when it obscures security.
-- Code that sacrifices readability.
-- Hard-coded secrets or sensitive configuration.
-- Broad permissions or overly permissive access controls.
 
 ### Ruby / Rails
 
@@ -94,16 +83,13 @@ Discourage and avoid the following:
 ### JavaScript
 
 - Follow [Standard](https://standardjs.com/) style rules.
-- Follow existing project conventions (framework, module style, etc.).
 - Prefer `const` over `let`. Never use `var`.
-- Use meaningful variable and function names.
 
 ### SCSS
 
 - Use [BEM](https://getbem.com/) naming convention for class names.
 - Write SCSS, not plain CSS.
 - Keep SCSS logically organised — one block per file or section. Do not mix unrelated blocks together.
-- Follow existing project conventions for file structure and nesting.
 
 ### Database
 
@@ -117,14 +103,13 @@ Discourage and avoid the following:
 - Watch for N+1 queries. Use `preload` or `eager_load` explicitly rather
   than `includes`, which lets Rails decide the strategy.
 - Avoid unnecessary database calls inside loops.
-- Be mindful of memory usage with large collections — prefer
-  `find_each` / `find_in_batches` over `all.each`.
+- Use `find_each` or `find_in_batches` over `all.each` for large
+  collections.
 
 ### Logging
 
-- Never log sensitive data such as tokens, passwords, API keys, or PII.
-- Log meaningfully — include enough context to be useful for debugging
-  without leaking security-sensitive information.
+- Never log tokens, passwords, API keys, or PII.
+- Include enough context in log messages to be useful for debugging.
 
 ### Accessibility
 
@@ -135,8 +120,9 @@ Discourage and avoid the following:
 
 ### Documentation
 
-- Code should be self-documenting. Use clear naming over comments.
-- Add inline comments sparingly — only for non-obvious logic, decisions, or workarounds.
+- Only add inline comments for non-obvious logic, decisions, or
+  workarounds. If code needs a comment to explain what it does,
+  rewrite the code.
 - Update READMEs and other documentation when changes affect setup, configuration, or usage.
 - Feature documentation lives in `docs/` as markdown files. Each should
   cover: the problem being solved, reasoning behind the implementation,
@@ -145,8 +131,8 @@ Discourage and avoid the following:
 
 ### Dependency Management
 
-- Prefer well-maintained, trusted gems and packages. Check for recent
-  activity and known vulnerabilities before suggesting.
+- Before suggesting a gem or package, check that it has had a release
+  or commit within the last 12 months and has no known CVEs.
 - Pin dependency versions in Gemfiles and package manifests.
 - Avoid adding unnecessary dependencies — if the standard library or
   existing dependencies can do the job, prefer those.
