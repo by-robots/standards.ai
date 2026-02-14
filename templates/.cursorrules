@@ -78,8 +78,17 @@ Discourage and avoid the following:
 - Use `frozen_string_literal: true` in all Ruby files.
 - Prefer `Hash#fetch` over `Hash#[]` when a missing key should raise.
 - Use service objects or POROs to keep controllers and models lean.
+- Non-standard Rails objects (services, presenters, facades, etc.)
+  should follow the `NameType` naming convention, e.g.
+  `ProcessInputService`, `OrderPresenter`, `CreateFacade`.
 - Use strong parameters. Never bypass mass assignment protection.
-- Use scopes for reusable queries; keep complex queries out of controllers.
+- Use scopes for reusable queries; keep complex queries out of
+  controllers.
+- Avoid querying models directly where possible, as this risks
+  exposing data the current user should not access. Scope queries
+  through the current user or a similar association instead.
+  Bad: `Order.where(user_id: Current.user.id)`
+  Good: `Current.user.orders`
 - Prefer `present?` / `blank?` over nil checks where appropriate.
 
 ### JavaScript
