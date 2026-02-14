@@ -16,15 +16,15 @@ Each template covers:
 - **Communication** — tone, language (UK English), and how the AI should
   propose changes.
 - **Coding conventions** — general principles plus language-specific rules
-  for Ruby/Rails, JavaScript, SCSS, and database migrations.
+  for Ruby, TypeScript/JavaScript, CSS, and database migrations.
 - **Git workflow** — Conventional Commits, atomic changes, no AI
   co-author entries.
 - **Project context** — a placeholder section you fill in per repository
   (stack, versions, architecture, deployment).
 
-The templates are opinionated toward a Ruby on Rails stack. If your
-project uses a different stack, strip or replace the language-specific
-sections.
+The templates include language-specific sections for Ruby and
+TypeScript/JavaScript. Keep the ones relevant to your stack and delete
+the rest.
 
 ## Supported tools
 
