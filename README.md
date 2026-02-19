@@ -59,8 +59,9 @@ cp templates/GEMINI.md /path/to/your/project/GEMINI.md
 cp templates/AGENTS.md /path/to/your/project/AGENTS.md
 ```
 
-Then edit the **Project Context** section at the bottom to describe your
-stack, versions, key dependencies, and architecture.
+Then run `/about` to populate the **About This Project** and **Project
+Context** sections automatically (see [Slash commands](#slash-commands)),
+or fill them in manually.
 
 ## Slash commands
 
@@ -75,14 +76,34 @@ template. The destination path mirrors the source path under `templates/`:
 
 ```sh
 # Claude Code
-cp templates/.claude/commands/review.md /path/to/your/project/.claude/commands/review.md
+cp -r templates/.claude/commands /path/to/your/project/.claude/
 
 # Cursor
-cp templates/.cursor/commands/review.md /path/to/your/project/.cursor/commands/review.md
+cp -r templates/.cursor/commands /path/to/your/project/.cursor/
 
 # Gemini CLI
-cp templates/.gemini/commands/review.toml /path/to/your/project/.gemini/commands/review.toml
+cp -r templates/.gemini/commands /path/to/your/project/.gemini/
 ```
+
+### `/about`
+
+Populates the **About This Project** and **Project Context** sections of your
+rules file from project signals — README, package manifests, version files, and
+deployment config. Run it once after copying a template into a new project.
+
+Presents a draft for confirmation before writing anything. Pass a hint if the
+project isn't self-describing from its files alone.
+
+| Tool | Command | Notes |
+|------|---------|-------|
+| Claude Code | `/about` | Infers from project files |
+| Claude Code | `/about <hint>` | Uses hint to supplement inference |
+| Cursor | `/about` | Infers from project files |
+| Gemini CLI | `/about` | Infers from project files |
+| Gemini CLI | `/about <hint>` | Uses hint to supplement inference |
+
+**Limitations:** Cursor's custom slash commands do not reliably support
+argument passing, so the Cursor version does not accept a hint argument.
 
 ### `/review`
 
@@ -116,10 +137,13 @@ templates/
   GEMINI.md                    # Template for Google Antigravity
   AGENTS.md                    # Tool-agnostic template
   .claude/commands/
+    about.md                   # Project setup command for Claude Code
     review.md                  # Code review command for Claude Code
   .cursor/commands/
+    about.md                   # Project setup command for Cursor
     review.md                  # Code review command for Cursor
   .gemini/commands/
+    about.toml                 # Project setup command for Gemini CLI
     review.toml                # Code review command for Gemini CLI
 CLAUDE.md                      # Rules for working on this repo itself (not a template)
 ```
