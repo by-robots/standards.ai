@@ -62,15 +62,66 @@ cp templates/AGENTS.md /path/to/your/project/AGENTS.md
 Then edit the **Project Context** section at the bottom to describe your
 stack, versions, key dependencies, and architecture.
 
+## Slash commands
+
+Slash commands are reusable prompt templates invoked directly from your AI
+tool's chat interface. They let you run common tasks against your project's
+own rules without writing a prompt each time.
+
+### Setup
+
+Copy the command files for your tool into your project alongside the rules
+template. The destination path mirrors the source path under `templates/`:
+
+```sh
+# Claude Code
+cp templates/.claude/commands/review.md /path/to/your/project/.claude/commands/review.md
+
+# Cursor
+cp templates/.cursor/commands/review.md /path/to/your/project/.cursor/commands/review.md
+
+# Gemini CLI
+cp templates/.gemini/commands/review.toml /path/to/your/project/.gemini/commands/review.toml
+```
+
+### `/review`
+
+Evaluates code against the rules defined in your project's rules file
+(e.g. `CLAUDE.md`, `.cursorrules`). Each rule section is checked in turn and
+violations are reported with the offending code quoted alongside the rule being
+broken. Sections with no violations are omitted.
+
+Intended as a pre-commit check: run it against your staged changes before
+pushing to catch rule violations early. It can also be pointed at a specific
+file or directory for a more targeted review.
+
+| Tool | Command | Scope |
+|------|---------|-------|
+| Claude Code | `/review` | Staged changes |
+| Claude Code | `/review <path>` | Specified file or directory |
+| Cursor | `/review` | Staged changes only |
+| Gemini CLI | `/review` | Staged changes |
+| Gemini CLI | `/review <path>` | Specified file or directory |
+
+**Limitations:** Cursor's custom slash commands do not reliably support
+argument passing, so the Cursor version is limited to staged changes and
+does not accept a path argument.
+
 ## Repository structure
 
 ```
 templates/
-  CLAUDE.md        # Template for Claude Code
-  .cursorrules     # Template for Cursor
-  GEMINI.md        # Template for Google Antigravity
-  AGENTS.md        # Tool-agnostic template
-CLAUDE.md          # Rules for working on this repo itself (not a template)
+  CLAUDE.md                    # Template for Claude Code
+  .cursorrules                 # Template for Cursor
+  GEMINI.md                    # Template for Google Antigravity
+  AGENTS.md                    # Tool-agnostic template
+  .claude/commands/
+    review.md                  # Code review command for Claude Code
+  .cursor/commands/
+    review.md                  # Code review command for Cursor
+  .gemini/commands/
+    review.toml                # Code review command for Gemini CLI
+CLAUDE.md                      # Rules for working on this repo itself (not a template)
 ```
 
 ## Contributing
