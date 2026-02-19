@@ -1,5 +1,10 @@
 # Cursor Rules
 
+## About This Project
+
+<!-- Replace this comment with a short description of what this project is,
+     who uses it, and what problem it solves. Keep it to two or three sentences. -->
+
 ## Security — Read This First
 
 - **Never** commit secrets, API keys, tokens, passwords, or credentials to the repository.
