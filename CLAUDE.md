@@ -2,10 +2,15 @@
 
 ## About This Repository
 
-This is a template repository for AI coding assistant rules. It contains
-configuration files (`CLAUDE.md`, `.cursorrules`, etc.) that are copied into
-other projects to define how AI tools should behave. The templates themselves
-are the product — not application code.
+This repository contains template rule files for AI coding assistants. The
+templates are copied into other projects to define how AI tools should behave
+when building software. The templates themselves are the product — not
+application code.
+
+The primary template targets Claude Code (`CLAUDE.md`). Rules that apply
+regardless of tool are then translated into formats for other assistants such
+as Cursor (`.cursorrules`). When working here, assume Claude is the source of
+truth and other formats are derived from it.
 
 ## Working on This Repository
 
