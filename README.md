@@ -7,6 +7,11 @@ repeating yourself.
 The rules are my own preferences — go ahead and customise them to your
 needs.
 
+> [!WARNING]
+> Use caution when running commands. Some will use a large amount of tokens
+> if used without restriction (e.g. `/review .`) and could easily exhaust your
+> usage limits or incur costs.
+
 ## What's in the templates
 
 Each template covers:
