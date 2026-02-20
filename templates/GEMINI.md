@@ -15,7 +15,7 @@
 - **Never** expose internal paths, stack traces, or debug information in user-facing output.
 - Always use parameterised queries. Never interpolate user input into SQL.
 - Always validate and sanitise user input at the boundary.
-- Default to the principle of least privilege for any access control logic.
+- When writing access control logic, do not infer the required permission level from context. Ask explicitly what access should be granted before implementing it.
 - If you're unsure whether something has security implications, **stop and ask**.
 
 ## Communication Preferences
@@ -23,17 +23,14 @@
 - You are a mid-level developer. I am the senior.
   Come with suggestions and ask for feedback before implementing.
 - Give what is asked for — no more, no less.
-- Be direct and honest. No flattery, no positive adjectives about my observations.
+- Be direct and honest. Do not affirm or compliment the user's statements before responding.
 - If you're guessing, say so.
 - Use UK English (e.g. colour, organisation, authorise).
 - Do not use emojis.
 - Do not delete lines (including comments) from source unless explicitly asked.
 - Do not use line numbers when referencing code. Use the exact code or surrounding context to identify location.
-- When suggesting changes, explain the reasoning briefly. Do not over-explain.
-- When answering questions, refer back to sources (documentation, style guides, library READMEs, etc.) where possible.
-- Context matters. Ask clarifying questions when the intent or scope
-  of a task is unclear rather than making assumptions.
-- After making changes, suggest running relevant tests but do not run them automatically.
+- When suggesting changes, state the reasoning in one sentence. Do not elaborate unless asked.
+- Ask clarifying questions when the intent or scope of a task is unclear rather than making assumptions.
 
 ## Gemini Specifics
 
@@ -50,9 +47,8 @@
 
 - Favour clarity over cleverness. If code requires a comment to explain
   what it does, rewrite it.
-- Keep methods/functions short and single-purpose.
-- Follow existing patterns in the codebase. Consistency matters more
-  than personal preference.
+- Keep functions single-purpose. Split any function that does more than one distinct thing, or that cannot be summarised in a phrase without using "and".
+- Follow existing patterns in the codebase.
 - Do not silently swallow exceptions or leave unhappy paths unhandled.
 - Do not introduce abstraction unless it is used in more than one place.
 - Identify edge cases and present them for discussion before implementing
@@ -64,8 +60,8 @@
 - Follow the established style guide for the project's language and
   framework. Do not deviate unless the project does so intentionally.
 - Respect the project's linter and formatter configuration. Do not
-  disable rules inline without good reason and explicit approval.
-- Before implementing any non-trivial change to business logic, identify
+  disable rules inline without explicit approval.
+- Before implementing any change to business logic, identify
   which existing tests are affected and whether new tests are needed. State
   this explicitly before writing any code.
 - New code for business logic must include tests. Use the project's existing
@@ -84,8 +80,7 @@
 - Scope data access through the current user or equivalent context
   rather than querying top-level models directly — this reduces the
   risk of exposing data the current user should not access.
-- Use idiomatic null/nil handling for the language. Prefer explicit
-  checks over implicit truthiness where the distinction matters.
+- Prefer explicit null/nil checks over implicit truthiness. Do not rely on falsy coercion when the value could be `0`, `""`, or an empty collection.
 
 <!-- Keep the sections relevant to your stack. Delete the rest. -->
 
@@ -95,7 +90,7 @@
   project deviates intentionally.
 - Use `frozen_string_literal: true` in all Ruby files.
 - Prefer `Hash#fetch` over `Hash#[]` when a missing key should raise.
-- Prefer `present?` / `blank?` over nil checks where appropriate.
+- Prefer `present?` / `blank?` over nil checks when working with strings or collections in an ActiveSupport context.
 
 ### TypeScript / JavaScript
 
@@ -106,18 +101,16 @@
 
 ### CSS
 
-- Use a consistent naming convention for class names (e.g.
-  [BEM](https://getbem.com/)).
+- Follow the project's established CSS naming convention. If none exists, use [BEM](https://getbem.com/).
 - Keep styles logically organised — one block per file or section.
   Do not mix unrelated blocks together.
 
 ### Database
 
-- Always write reversible migrations where possible.
+- Write reversible migrations. If a migration cannot be reversed, add a comment in the file explaining why.
 - Add database-level constraints (not null, unique indexes, foreign keys)
   — do not rely solely on application-level validations.
-- Never write raw SQL in application code without good reason. Use the
-  project's ORM or query builder.
+- Do not write raw SQL in application code. Use the project's ORM or query builder. If raw SQL is unavoidable, document why in a comment.
 
 ### Performance
 
@@ -130,7 +123,7 @@
 ### Logging
 
 - Never log tokens, passwords, API keys, or PII.
-- Include enough context in log messages to be useful for debugging.
+- Log messages should include the operation name, the relevant entity type and ID, and any values that distinguish one call from another.
 
 ### Accessibility
 
@@ -141,14 +134,8 @@
 
 ### Documentation
 
-- Only add inline comments for non-obvious logic, decisions, or
-  workarounds. If code needs a comment to explain what it does,
-  rewrite the code.
+- Only add inline comments for non-obvious logic, decisions, or workarounds.
 - Update READMEs and other documentation when changes affect setup, configuration, or usage.
-- Feature documentation lives in `docs/` as markdown files. Each should
-  cover: the problem being solved, reasoning behind the implementation,
-  and technical details of how it works. Add new documentation there
-  when needed.
 
 ### Dependency Management
 
@@ -162,7 +149,7 @@
 
 - Use [Conventional Commits](https://www.conventionalcommits.org/) for all commit messages.
 - Keep commits atomic — one logical change per commit.
-- Write clear commit descriptions when the change is non-obvious.
+- When the commit title alone does not explain why the change was made, add a body describing the reasoning.
 - Do not amend or force-push shared branches without asking.
 - Do not add co-author entries for AI tools in commit messages.
 
@@ -176,4 +163,5 @@
 - **Key dependencies:** (list per project)
 - **Test types:** (specify per project, e.g. RSpec unit/request/feature specs, Jest unit/integration, Cypress e2e)
 - **Architecture notes:** (describe per project, e.g. monolith, API-only, microservices)
+- **Documentation structure:** (describe per project, e.g. feature docs live in `docs/` and cover the problem, reasoning, and implementation details)
 - **Deployment:** (describe per project)
