@@ -65,9 +65,15 @@
   framework. Do not deviate unless the project does so intentionally.
 - Respect the project's linter and formatter configuration. Do not
   disable rules inline without good reason and explicit approval.
-- New code should include tests for non-trivial changes. Use the
-  project's existing test framework and follow its conventions.
-- When touching existing untested code, backfill tests.
+- Before implementing any non-trivial change to business logic, identify
+  which existing tests are affected and whether new tests are needed. State
+  this explicitly before writing any code.
+- New code for business logic must include tests. Use the project's existing
+  test framework and follow its conventions.
+- When touching untested business logic, propose backfilling tests for the
+  affected area. If that is out of scope for the task, say so explicitly.
+- When working in areas with poor or no test coverage, flag it — even if
+  fixing it is out of scope.
 - Keep business logic out of controllers, handlers, and other entry
   points. Extract it into service objects, plain classes, or modules.
 - Use the framework's built-in protections for mass assignment,
