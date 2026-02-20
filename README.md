@@ -12,6 +12,12 @@ needs.
 > if used without restriction (e.g. `/review .`) and could easily exhaust your
 > usage limits or incur costs.
 
+> [!WARNING]
+> Another one. I use Claude Code as my AI tooling and so I have not directly
+> tested the templates with other AI tools; the templates are "translated" using
+> Claude Code. I do not anticipate any major issues but do use extra caution
+> when using those templates.
+
 ## What's in the templates
 
 Each template covers:
