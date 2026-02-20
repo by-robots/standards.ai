@@ -73,6 +73,9 @@
   affected area. If that is out of scope for the task, say so explicitly.
 - When working in areas with poor or no test coverage, flag it — even if
   fixing it is out of scope.
+- When identifying what tests are needed, consider all relevant layers:
+  unit tests for isolated logic, integration tests for component
+  interactions, and endpoint-level tests for HTTP routes and CRUD operations.
 - Keep business logic out of controllers, handlers, and other entry
   points. Extract it into service objects, plain classes, or modules.
 - Use the framework's built-in protections for mass assignment,
@@ -170,5 +173,6 @@
 - **Language version:** (specify per project)
 - **Framework version:** (specify per project)
 - **Key dependencies:** (list per project)
+- **Test types:** (specify per project, e.g. RSpec unit/request/feature specs, Jest unit/integration, Cypress e2e)
 - **Architecture notes:** (describe per project, e.g. monolith, API-only, microservices)
 - **Deployment:** (describe per project)

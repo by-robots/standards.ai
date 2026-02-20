@@ -23,6 +23,7 @@ Generate the "About This Project" and "Project Context" sections for this projec
    - **Language version:** from manifest or version file
    - **Framework version:** from manifest or lockfile
    - **Key dependencies:** notable libraries (not an exhaustive list)
+   - **Test types:** testing frameworks and test types in use (e.g. unit, integration, request/API, e2e) — infer from manifests and test config files (`.rspec`, `jest.config.*`, `vitest.config.*`, `pytest.ini`, `cypress.config.*`)
    - **Architecture notes:** monolith, API-only, microservices, etc.
    - **Deployment:** hosting or deployment method
 
