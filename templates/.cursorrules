@@ -126,7 +126,10 @@
 
 ### Accessibility
 
-- Use semantic HTML in user-facing views.
+- Write well-formed, semantic HTML in user-facing views. Use elements for their
+  intended purpose (e.g. `<button>` for interactive controls, `<nav>` for
+  navigation, `<table>` for tabular data). Do not leave tags unclosed or
+  improperly nested.
 - Follow [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/) basics
   — proper heading hierarchy, alt text for images, sufficient colour
   contrast, keyboard navigability.
