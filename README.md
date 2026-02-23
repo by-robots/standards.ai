@@ -31,10 +31,11 @@ the rest.
 
 ## Usage
 
-Copy the template into the root of your project:
+Copy the template and commands into your project:
 
 ```sh
 cp templates/CLAUDE.md /path/to/your/project/CLAUDE.md
+cp -r templates/.claude/commands /path/to/your/project/.claude/
 ```
 
 Then run `/about` to populate the **About This Project** and **Project
@@ -46,14 +47,6 @@ or fill them in manually.
 Slash commands are reusable prompt templates invoked directly from Claude
 Code's chat interface. They let you run common tasks against your project's
 own rules without writing a prompt each time.
-
-### Setup
-
-Copy the command files into your project alongside the rules template:
-
-```sh
-cp -r templates/.claude/commands /path/to/your/project/.claude/
-```
 
 ### `/about`
 
