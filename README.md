@@ -31,16 +31,20 @@ the rest.
 
 ## Usage
 
-Copy the template and commands into your project:
+Copy the template files into your project:
 
 ```sh
 cp templates/CLAUDE.md /path/to/your/project/CLAUDE.md
-cp -r templates/.claude/commands /path/to/your/project/.claude/
+cp -r templates/.claude /path/to/your/project/.claude/
 ```
 
-Then run `/about` to populate the **About This Project** and **Project
-Context** sections automatically (see [Slash commands](#slash-commands)),
-or fill them in manually.
+`CLAUDE.md` contains the shared rules and imports `.claude/project.md` at
+startup. The project file holds the two sections specific to your project —
+**About This Project** and **Project Context** — and is kept separate so you
+can update the shared rules without overwriting your project-specific content.
+
+Run `/about` to populate those sections automatically (see
+[Slash commands](#slash-commands)), or fill them in manually.
 
 ## Slash commands
 
@@ -82,10 +86,12 @@ file or directory for a more targeted review.
 
 ```
 templates/
-  CLAUDE.md                    # Template for Claude Code
-  .claude/commands/
-    about.md                   # Project setup command
-    review.md                  # Code review command
+  CLAUDE.md                    # Shared rules template for Claude Code
+  .claude/
+    project.md                 # Project-specific context (About, Stack, etc.)
+    commands/
+      about.md                 # Project setup command
+      review.md                # Code review command
 CLAUDE.md                      # Rules for working on this repo itself (not a template)
 ```
 

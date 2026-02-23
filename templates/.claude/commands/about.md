@@ -1,4 +1,4 @@
-Generate the "About This Project" and "Project Context" sections for this project's template rule files.
+Generate the "About This Project" and "Project Context" sections for this project.
 
 **Usage:**
 - `/about` — infers content from project files
@@ -35,11 +35,9 @@ Generate the "About This Project" and "Project Context" sections for this projec
 
 5. Present both proposed sections and ask for confirmation before writing anything.
 
-6. On confirmation, update each of the following files if they exist:
-   - Replace the "About This Project" placeholder comment if it is still present.
-   - Fill in the "Project Context" fields with the drafted values.
-
-   Files to update: `CLAUDE.md`, `.cursorrules`, `AGENTS.md`, `GEMINI.md`
+6. On confirmation, write the content to `.claude/project.md`:
+   - If the file does not exist, create it with both sections.
+   - If the file exists, replace the "About This Project" placeholder comment if it is still present, and fill in any "Project Context" fields that are still placeholders. Do not overwrite fields that have already been filled in.
 
    The "About This Project" placeholder is:
    ```
@@ -47,4 +45,4 @@ Generate the "About This Project" and "Project Context" sections for this projec
         who uses it, and what problem it solves. Keep it to two or three sentences. -->
    ```
 
-7. Report which files were updated and which were skipped (missing or already complete).
+7. Report whether the file was created or updated, and which fields were changed.

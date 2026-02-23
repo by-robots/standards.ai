@@ -64,8 +64,10 @@ When asked to add, remove, or modify rules:
 
 ```
 templates/
-  CLAUDE.md            # Template rules for Claude Code
-  .claude/commands/    # Slash commands for Claude Code
+  CLAUDE.md            # Shared rules template for Claude Code
+  .claude/
+    project.md         # Project-specific context (About, Stack, etc.)
+    commands/          # Slash commands for Claude Code
 .claude/commands/      # Project-level commands for this repository
 ```
 
