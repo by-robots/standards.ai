@@ -77,10 +77,28 @@ Intended as a pre-commit check: run it against your staged changes before
 pushing to catch rule violations early. It can also be pointed at a specific
 file or directory for a more targeted review.
 
+Violations recorded in `.claude/review-violations.md` are suppressed
+automatically. If you dismiss a finding during a review session as acceptable,
+the command will offer to add it to that file.
+
 | Command | Scope |
 |---------|-------|
 | `/review` | Staged changes |
 | `/review <path>` | Specified file or directory |
+
+### `/audit-violations`
+
+Audits `.claude/review-violations.md` for stale or imprecise entries. For each
+entry, it checks whether the referenced file still exists, whether the context
+identifier is still present, and whether the rule is still being violated. Entries
+that no longer apply are proposed for removal; surviving entries are checked for
+opportunities to improve their context or detail.
+
+Presents all proposed changes for confirmation before writing anything.
+
+| Command | Notes |
+|---------|-------|
+| `/audit-violations` | Audits all entries in the violations register |
 
 ## Repository structure
 
@@ -89,9 +107,11 @@ templates/
   CLAUDE.md                    # Shared rules template for Claude Code
   .claude/
     project.md                 # Project-specific context (About, Stack, etc.)
+    review-violations.md       # Accepted violations suppressed by /review
     commands/
       about.md                 # Project setup command
       review.md                # Code review command
+      audit-violations.md      # Violations register maintenance command
 CLAUDE.md                      # Rules for working on this repo itself (not a template)
 ```
 
