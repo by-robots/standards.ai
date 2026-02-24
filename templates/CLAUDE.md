@@ -102,6 +102,23 @@
 - Keep styles logically organised — one block per file or section.
   Do not mix unrelated blocks together.
 
+### Mark-up
+
+- Use elements for their intended purpose. Prefer `<button>` over `<div role="button">`,
+  `<nav>` over `<div class="nav">`. Reserve `<div>` and `<span>` for cases where no
+  semantic element fits.
+- Use landmark elements (`<main>`, `<nav>`, `<header>`, `<footer>`, `<aside>`) to define
+  page regions. Each page should have exactly one `<main>`.
+- Validate mark-up against the HTML spec. Do not leave tags unclosed or elements
+  improperly nested.
+- Add `aria-label` or `aria-labelledby` when an element's purpose is not clear from its
+  visible content or surrounding context alone.
+- Use ARIA state attributes (`aria-expanded`, `aria-selected`, `aria-controls`, etc.) for
+  interactive patterns with no native HTML equivalent. Do not use ARIA to override
+  semantics that a native element already provides.
+- Every `<img>` must have an `alt` attribute. Use `alt=""` for decorative images;
+  describe the content for informative ones.
+
 ### Database
 
 - Write reversible migrations. If a migration cannot be reversed, add a comment in the file explaining why.
@@ -124,13 +141,8 @@
 
 ### Accessibility
 
-- Write well-formed, semantic HTML in user-facing views. Use elements for their
-  intended purpose (e.g. `<button>` for interactive controls, `<nav>` for
-  navigation, `<table>` for tabular data). Do not leave tags unclosed or
-  improperly nested.
 - Follow [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/) basics
-  — proper heading hierarchy, alt text for images, sufficient colour
-  contrast, keyboard navigability.
+  — proper heading hierarchy, sufficient colour contrast, keyboard navigability.
 
 ### Documentation
 
