@@ -33,16 +33,10 @@ Generate the "About This Project" and "Project Context" sections for this projec
 
    Leave any field as its current placeholder if the information cannot be determined from project files.
 
-5. Present both proposed sections and ask for confirmation before writing anything.
+5. Present both proposed sections and ask for confirmation before writing anything. If the file already contains non-placeholder content, show the current value alongside the proposed value for each field so the user can see what would change.
 
 6. On confirmation, write the content to `.claude/project.md`:
    - If the file does not exist, create it with both sections.
-   - If the file exists, replace the "About This Project" placeholder comment if it is still present, and fill in any "Project Context" fields that are still placeholders. Do not overwrite fields that have already been filled in.
-
-   The "About This Project" placeholder is:
-   ```
-   <!-- Replace this comment with a short description of what this project is,
-        who uses it, and what problem it solves. Keep it to two or three sentences. -->
-   ```
+   - If the file exists, update the "About This Project" section (replacing all content between the `## About This Project` heading and the next `##` heading) and update the following Project Context fields: Stack, Language version, Framework version, Key dependencies, Test types, Architecture notes, Deployment. Do not modify any other fields or content in the file.
 
 7. Report whether the file was created or updated, and which fields were changed.
