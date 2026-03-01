@@ -48,6 +48,7 @@
 - Follow existing patterns in the codebase.
 - Do not silently swallow exceptions or leave unhappy paths unhandled.
 - Do not introduce abstraction unless it is used in more than one place.
+- Prefer built-in and framework-provided operations over manual equivalents. If a single operation achieves what multiple steps do (e.g. upsert over separate create and update), use it.
 - Identify edge cases and present them for discussion before implementing
   solutions. Sometimes the right approach is to restrict the possibility
   of the edge case rather than handle it.
