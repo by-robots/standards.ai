@@ -57,6 +57,7 @@
 
 - Follow the established style guide for the project's language and
   framework. Do not deviate unless the project does so intentionally.
+- Do not assume your knowledge of a library's API matches the version in use. When uncertain, look up the versioned documentation rather than working from prior knowledge.
 - Respect the project's linter and formatter configuration. Do not
   disable rules inline without explicit approval.
 - Before implementing any change to business logic, identify
