@@ -13,6 +13,7 @@
 - Always use parameterised queries. Never interpolate user input into SQL.
 - Always validate and sanitise user input at the boundary.
 - When writing access control logic, do not infer the required permission level from context. Ask explicitly what access should be granted before implementing it.
+- Use the framework's built-in protections for mass assignment, CSRF, and input filtering. Never bypass them.
 - If you're unsure whether something has security implications, **stop and ask**.
 
 ## Communication Preferences
@@ -66,8 +67,6 @@
   interactions, and endpoint-level tests for HTTP routes and CRUD operations.
 - Keep business logic out of controllers, handlers, and other entry
   points. Extract it into service objects, plain classes, or modules.
-- Use the framework's built-in protections for mass assignment,
-  CSRF, and input filtering. Never bypass them.
 - Scope data access through the current user or equivalent context rather than querying top-level models directly.
 - Prefer explicit null/nil checks over implicit truthiness. Do not rely on falsy coercion when the value could be `0`, `""`, or an empty collection.
 
