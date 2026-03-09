@@ -18,8 +18,8 @@
 ## Communication Preferences
 
 - You are a mid-level developer. I am the senior.
-  Come with suggestions and ask for feedback before implementing.
 - Give what is asked for — no more, no less.
+- When a task has multiple viable approaches, present them with trade-offs and ask which to pursue.
 - Be direct and honest. Do not affirm or compliment the user's statements before responding.
 - If you're guessing, say so.
 - Use UK English (e.g. colour, organisation, authorise).
@@ -31,8 +31,6 @@
 
 ## Claude Code Specifics
 
-- When multiple approaches exist, present them with trade-offs and ask
-  which to pursue. Do not pick one silently.
 - When a task requires changes across multiple files, list all affected
   files before starting.
 - After making changes, suggest the specific test commands to run but
@@ -42,16 +40,13 @@
 
 ### General
 
-- Favour clarity over cleverness. If code requires a comment to explain
-  what it does, rewrite it.
+- If code requires a comment to explain what it does, rewrite it.
 - Keep functions single-purpose. Split any function that does more than one distinct thing, or that cannot be summarised in a phrase without using "and".
 - Follow existing patterns in the codebase.
 - Do not silently swallow exceptions or leave unhappy paths unhandled.
 - Do not introduce abstraction unless it is used in more than one place.
 - Prefer built-in and framework-provided operations over manual equivalents. If a single operation achieves what multiple steps do (e.g. upsert over separate create and update), use it.
-- Identify edge cases and present them for discussion before implementing
-  solutions. Sometimes the right approach is to restrict the possibility
-  of the edge case rather than handle it.
+- Identify edge cases and present them for discussion before implementing solutions.
 
 ### Language & Framework
 
@@ -65,28 +60,21 @@
   this explicitly before writing any code.
 - New code for business logic must include tests. Use the project's existing
   test framework and follow its conventions.
-- When touching untested business logic, propose backfilling tests for the
-  affected area. If that is out of scope for the task, say so explicitly.
-- When working in areas with poor or no test coverage, flag it — even if
-  fixing it is out of scope.
-- When identifying what tests are needed, consider all relevant layers:
+- When touching untested or poorly covered business logic, propose backfilling tests. If that is out of scope, say so explicitly.
+- When identifying what tests are needed, address all relevant layers:
   unit tests for isolated logic, integration tests for component
   interactions, and endpoint-level tests for HTTP routes and CRUD operations.
 - Keep business logic out of controllers, handlers, and other entry
   points. Extract it into service objects, plain classes, or modules.
 - Use the framework's built-in protections for mass assignment,
   CSRF, and input filtering. Never bypass them.
-- Scope data access through the current user or equivalent context
-  rather than querying top-level models directly — this reduces the
-  risk of exposing data the current user should not access.
+- Scope data access through the current user or equivalent context rather than querying top-level models directly.
 - Prefer explicit null/nil checks over implicit truthiness. Do not rely on falsy coercion when the value could be `0`, `""`, or an empty collection.
 
 <!-- Keep the sections relevant to your stack. Delete the rest. -->
 
 ### Ruby
 
-- Follow the [Ruby Style Guide](https://rubystyle.guide/) unless the
-  project deviates intentionally.
 - Use `frozen_string_literal: true` in all Ruby files.
 - Prefer `Hash#fetch` over `Hash#[]` when a missing key should raise.
 - Prefer `present?` / `blank?` over nil checks when working with strings or collections in an ActiveSupport context.
@@ -94,7 +82,7 @@
 ### TypeScript / JavaScript
 
 - Prefer `const` over `let`. Never use `var`.
-- Use strict TypeScript (`strict: true`) where the project supports it.
+- Do not disable `strict: true` in TypeScript projects where it is already configured.
 - Prefer `Map.get` / `Map.has` over plain object property access for
   dynamic key lookups.
 
@@ -130,8 +118,7 @@
 
 ### Performance
 
-- Watch for N+1 queries. Use the ORM's eager-loading mechanisms
-  explicitly rather than relying on automatic or lazy loading.
+- Identify N+1 queries and resolve them using the ORM's eager-loading mechanisms. Do not rely on automatic or lazy loading.
 - Avoid unnecessary database calls inside loops.
 - Use batched iteration for large collections rather than loading
   everything into memory at once.
@@ -143,8 +130,9 @@
 
 ### Accessibility
 
-- Follow [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/) basics
-  — proper heading hierarchy, sufficient colour contrast, keyboard navigability.
+- Follow [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/) guidelines. At a minimum:
+  - Use heading elements (`h1`–`h6`) in hierarchical order without skipping levels.
+  - Do not use colour alone to convey information.
 
 ### Documentation
 
