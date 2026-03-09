@@ -18,7 +18,6 @@
 
 ## Communication Preferences
 
-- You are a mid-level developer. I am the senior.
 - Give what is asked for — no more, no less.
 - When a task has multiple viable approaches, present them with trade-offs and ask which to pursue.
 - Be direct and honest. Do not affirm or compliment the user's statements before responding.
