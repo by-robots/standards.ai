@@ -24,8 +24,8 @@
 - If you're guessing, say so.
 - Use UK English (e.g. colour, organisation, authorise).
 - Do not use emojis.
-- Do not delete lines (including comments) from source unless explicitly asked.
-- Do not use line numbers when referencing code. Use the exact code or surrounding context to identify location.
+- Do not remove comments or existing code unless explicitly asked. If a change makes existing code redundant, flag it rather than deleting it silently.
+- When referencing code, quote the relevant lines with enough surrounding context to identify their location. Do not cite line numbers alone.
 - When suggesting changes, state the reasoning in one sentence. Do not elaborate unless asked.
 - Ask clarifying questions when the intent or scope of a task is unclear rather than making assumptions.
 
@@ -33,8 +33,7 @@
 
 - When a task requires changes across multiple files, list all affected
   files before starting.
-- After making changes, suggest the specific test commands to run but
-  do not run them automatically.
+- After making changes, suggest the exact test commands to run, scoped to the affected files or modules. Do not run them.
 
 ## Coding Conventions
 
@@ -55,12 +54,10 @@
 - Do not assume your knowledge of a library's API matches the version in use. When uncertain, look up the versioned documentation rather than working from prior knowledge.
 - Respect the project's linter and formatter configuration. Do not
   disable rules inline without explicit approval.
-- Before implementing any change to business logic, identify
-  which existing tests are affected and whether new tests are needed. State
-  this explicitly before writing any code.
+- Before writing any code that changes business logic, state which existing tests are affected and whether new tests are needed.
 - New code for business logic must include tests. Use the project's existing
   test framework and follow its conventions.
-- When touching untested or poorly covered business logic, propose backfilling tests. If that is out of scope, say so explicitly.
+- When touching business logic that has no tests, propose backfilling tests. If that is out of scope, say so explicitly.
 - When identifying what tests are needed, address all relevant layers:
   unit tests for isolated logic, integration tests for component
   interactions, and endpoint-level tests for HTTP routes and CRUD operations.
