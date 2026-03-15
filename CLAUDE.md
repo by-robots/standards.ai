@@ -41,6 +41,11 @@ When asked to add, remove, or modify rules:
 4. **Explain trade-offs.** If a proposed rule has downsides (e.g. reduces
    flexibility, increases verbosity), say so.
 
+### Keeping the README in Sync
+
+When making changes that affect repository structure, features, or usage,
+check whether `README.md` needs updating before closing the task.
+
 ### What Not to Do
 
 - Do not add rules that are obvious or already implied by the AI's default
