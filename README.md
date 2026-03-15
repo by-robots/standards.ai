@@ -5,6 +5,8 @@ to get consistent, security-conscious AI assistance without repeating yourself.
 
 The rules are my own preferences — go ahead and customise them to your needs.
 
+The template follows the `CLAUDE.md` convention used by Claude Code, but the format is broadly compatible with other AI coding tools that support project-level instruction files. Other tools have not been tested.
+
 > [!WARNING]
 > Use caution when running skills. Some will use a large amount of tokens
 > if used without restriction (e.g. `/review .`) and could easily exhaust your
