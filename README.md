@@ -6,7 +6,7 @@ to get consistent, security-conscious AI assistance without repeating yourself.
 The rules are my own preferences — go ahead and customise them to your needs.
 
 > [!WARNING]
-> Use caution when running commands. Some will use a large amount of tokens
+> Use caution when running skills. Some will use a large amount of tokens
 > if used without restriction (e.g. `/review .`) and could easily exhaust your
 > usage limits or incur costs.
 
@@ -44,11 +44,11 @@ startup. The project file holds the two sections specific to your project —
 can update the shared rules without overwriting your project-specific content.
 
 Run `/about` to populate those sections automatically (see
-[Slash commands](#slash-commands)), or fill them in manually.
+[Skills](#skills)), or fill them in manually.
 
-## Slash commands
+## Skills
 
-Slash commands are reusable prompt templates invoked directly from Claude
+Skills are reusable prompt templates invoked directly from Claude
 Code's chat interface. They let you run common tasks against your project's
 own rules without writing a prompt each time.
 
@@ -61,8 +61,8 @@ deployment config. Run it once after copying the template into a new project.
 Presents a draft for confirmation before writing anything. Pass a hint if the
 project isn't self-describing from its files alone.
 
-| Command | Notes |
-|---------|-------|
+| Skill | Notes |
+|-------|-------|
 | `/about` | Infers from project files |
 | `/about <hint>` | Uses hint to supplement inference |
 
@@ -79,10 +79,10 @@ file or directory for a more targeted review.
 
 Violations recorded in `.claude/review-violations.md` are suppressed
 automatically. If you dismiss a finding during a review session as acceptable,
-the command will offer to add it to that file.
+the skill will offer to add it to that file.
 
-| Command | Scope |
-|---------|-------|
+| Skill | Scope |
+|-------|-------|
 | `/review` | Staged changes |
 | `/review <path>` | Specified file or directory |
 
@@ -96,8 +96,8 @@ opportunities to improve their context or detail.
 
 Presents all proposed changes for confirmation before writing anything.
 
-| Command | Notes |
-|---------|-------|
+| Skill | Notes |
+|-------|-------|
 | `/audit-violations` | Audits all entries in the violations register |
 
 ## Repository structure
@@ -108,10 +108,13 @@ templates/
   .claude/
     project.md                 # Project-specific context (About, Stack, etc.)
     review-violations.md       # Accepted violations suppressed by /review
-    commands/
-      about.md                 # Project setup command
-      review.md                # Code review command
-      audit-violations.md      # Violations register maintenance command
+    skills/
+      about/
+        SKILL.md               # Project setup skill
+      review/
+        SKILL.md               # Code review skill
+      audit-violations/
+        SKILL.md               # Violations register maintenance skill
 CLAUDE.md                      # Rules for working on this repo itself (not a template)
 ```
 

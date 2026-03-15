@@ -67,8 +67,8 @@ templates/
   CLAUDE.md            # Shared rules template for Claude Code
   .claude/
     project.md         # Project-specific context (About, Stack, etc.)
-    commands/          # Slash commands for Claude Code
-.claude/commands/      # Project-level commands for this repository
+    skills/            # Skills for Claude Code
+.claude/skills/        # Project-level skills for this repository
 ```
 
 The template is copied into target projects and adapted per project. The

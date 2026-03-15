@@ -1,3 +1,8 @@
+---
+name: about
+description: Generate the "About This Project" and "Project Context" sections for .claude/project.md. Use when setting up a new project or updating project metadata.
+---
+
 Generate the "About This Project" and "Project Context" sections for this project.
 
 **Usage:**

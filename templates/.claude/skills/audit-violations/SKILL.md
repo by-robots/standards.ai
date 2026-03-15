@@ -1,3 +1,8 @@
+---
+name: audit-violations
+description: Audit .claude/review-violations.md to remove stale entries and improve existing ones. Use when asked to clean up or audit the violations suppression file.
+---
+
 Audit `.claude/review-violations.md` to remove stale entries and improve existing ones.
 
 ## Instructions

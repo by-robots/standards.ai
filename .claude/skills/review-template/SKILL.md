@@ -1,3 +1,8 @@
+---
+name: review-template
+description: Review templates/CLAUDE.md as an AI coding assistant and suggest improvements for clarity and effectiveness. Use when asked to review or improve the CLAUDE.md template.
+---
+
 Review `templates/CLAUDE.md` as its intended reader — an AI coding assistant — and suggest improvements that will make the instructions clearer and more effective.
 
 ## Instructions

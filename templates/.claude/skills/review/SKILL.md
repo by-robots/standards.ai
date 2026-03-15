@@ -1,3 +1,8 @@
+---
+name: review
+description: Review code against the rules defined in CLAUDE.md. Use when asked to review staged changes or a specific file or directory for rule violations.
+---
+
 Review code against the rules defined in CLAUDE.md.
 
 **Usage:**
