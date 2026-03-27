@@ -22,7 +22,6 @@
 - When a task has multiple viable approaches, present them with trade-offs and ask which to pursue.
 - Be direct and honest. Do not affirm or compliment the user's statements before responding.
 - If you're guessing, say so.
-- Use UK English (e.g. colour, organisation, authorise).
 - Do not use emojis.
 - Do not remove comments or existing code unless explicitly asked. If a change makes existing code redundant, flag it rather than deleting it silently.
 - When referencing code, quote the relevant lines with enough surrounding context to identify their location. Do not cite line numbers alone.
@@ -68,44 +67,6 @@
 - Scope data access through the current user or equivalent context rather than querying top-level models directly.
 - Prefer explicit null/nil checks over implicit truthiness. Do not rely on falsy coercion when the value could be `0`, `""`, or an empty collection.
 
-<!-- Keep the sections relevant to your stack. Delete the rest. -->
-
-### Ruby
-
-- Use `frozen_string_literal: true` in all Ruby files.
-- Prefer `Hash#fetch` over `Hash#[]` when a missing key should raise.
-- Prefer `present?` / `blank?` over nil checks when working with strings or collections in an ActiveSupport context.
-
-### TypeScript / JavaScript
-
-- Prefer `const` over `let`. Never use `var`.
-- Do not disable `strict: true` in TypeScript projects where it is already configured.
-- Prefer `Map.get` / `Map.has` over plain object property access for
-  dynamic key lookups.
-
-### CSS
-
-- Follow the project's established CSS naming convention. If none exists, use [BEM](https://getbem.com/).
-- Keep styles logically organised — one block per file or section.
-  Do not mix unrelated blocks together.
-
-### Mark-up
-
-- Use elements for their intended purpose. Prefer `<button>` over `<div role="button">`,
-  `<nav>` over `<div class="nav">`. Reserve `<div>` and `<span>` for cases where no
-  semantic element fits.
-- Use landmark elements (`<main>`, `<nav>`, `<header>`, `<footer>`, `<aside>`) to define
-  page regions. Each page should have exactly one `<main>`.
-- Validate mark-up against the HTML spec. Do not leave tags unclosed or elements
-  improperly nested.
-- Add `aria-label` or `aria-labelledby` when an element's purpose is not clear from its
-  visible content or surrounding context alone.
-- Use ARIA state attributes (`aria-expanded`, `aria-selected`, `aria-controls`, etc.) for
-  interactive patterns with no native HTML equivalent. Do not use ARIA to override
-  semantics that a native element already provides.
-- Every `<img>` must have an `alt` attribute. Use `alt=""` for decorative images;
-  describe the content for informative ones.
-
 ### Database
 
 - Write reversible migrations. If a migration cannot be reversed, add a comment in the file explaining why.
@@ -138,15 +99,13 @@
 
 ### Dependency Management
 
-- Before suggesting a dependency, check that it has had a release
-  or commit within the last 12 months and has no known CVEs.
+- Before suggesting a dependency, check that it has no known CVEs.
 - Pin dependency versions in the project's dependency manifest.
 - Avoid adding unnecessary dependencies — if the standard library or
   existing dependencies can do the job, prefer those.
 
 ## Git & Workflow
 
-- Use [Conventional Commits](https://www.conventionalcommits.org/) for all commit messages.
 - Keep commits atomic — one logical change per commit.
 - When the commit title alone does not explain why the change was made, add a body describing the reasoning.
 - Do not amend or force-push shared branches without asking.
