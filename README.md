@@ -104,6 +104,32 @@ Presents all proposed changes for confirmation before writing anything.
 |-------|-------|
 | `/audit-violations` | Audits all entries in the violations register |
 
+## Agents
+
+Agents are specialised sub-agents that Claude Code can delegate work to. Unlike
+skills, they run autonomously with their own context, tools, and persistent
+memory — suited to tasks that require sustained focus on a single concern.
+
+### `system-architect`
+
+Handles architectural guidance, system design decisions, and trade-off
+analysis. Invoked automatically when a request touches module structure,
+component boundaries, data models, scalability, or integration patterns.
+
+Follows a structured process: analyses the current codebase state, gathers
+requirements, produces a design proposal (component diagram, responsibilities,
+data models, interface definitions), and documents trade-offs with a
+recommendation. Builds persistent memory of architectural decisions and
+patterns discovered in the codebase across sessions.
+
+The agent is intentionally language-neutral. Add language- or
+framework-specific guidance to the agent file when adapting the template to
+a target project.
+
+> [!NOTE]
+> Before use, replace `{PROJECT_ROOT}` in `agents/system-architect.md` with
+> the absolute path to your project root.
+
 ## Repository structure
 
 ```
@@ -119,6 +145,8 @@ templates/
         SKILL.md               # Code review skill
       audit-violations/
         SKILL.md               # Violations register maintenance skill
+    agents/
+      system-architect.md      # Sub-agent for architectural guidance and design
 CLAUDE.md                      # Rules for working on this repo itself (not a template)
 ```
 
