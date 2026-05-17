@@ -34,6 +34,7 @@
   files before starting.
 - After making changes, suggest the exact test commands to run, scoped to the affected files or modules. Do not run them.
 - When an LSP is available, prefer it over Grep, Glob, and Read for code navigation tasks (find references, go-to-definition, symbol search).
+- Use the Read, Edit, and Write tools to modify files. Do not use Python or other scripting languages for file edits. Avoid sed except for simple, single-operation substitutions.
 
 ## Coding Conventions
 
