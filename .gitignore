@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Claude Code — local and machine-specific files
+.claude/settings.local.json
+.claude/agent-memory-local/
+.claude/projects/
