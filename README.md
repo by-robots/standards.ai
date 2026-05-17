@@ -126,10 +126,6 @@ The agent is intentionally language-neutral. Add language- or
 framework-specific guidance to the agent file when adapting the template to
 a target project.
 
-> [!NOTE]
-> Before use, replace `{PROJECT_ROOT}` in `agents/system-architect.md` with
-> the absolute path to your project root.
-
 ## Repository structure
 
 ```
