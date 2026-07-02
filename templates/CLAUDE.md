@@ -27,6 +27,7 @@
 - When referencing code, include the file path and line number, plus enough quoted context to survive the file changing.
 - When suggesting changes, state the reasoning in one sentence. Do not elaborate unless asked.
 - Ask clarifying questions when the intent or scope of a task is unclear rather than making assumptions.
+- Before reporting a task complete, verify it — run the scoped tests or re-read the changed files — and state what you verified. If something could not be verified, say so plainly.
 
 ## Claude Code Specifics
 
@@ -43,6 +44,8 @@
 - If code requires a comment to explain what it does, rewrite it.
 - Keep functions single-purpose. Split any function that does more than one distinct thing, or that cannot be summarised in a phrase without using "and".
 - Follow existing patterns in the codebase.
+- Change only what the task requires. Do not reformat, rename, or restructure code you are not otherwise touching.
+- If the same error persists after two distinct fix attempts, stop and report what you tried. Do not attempt a third variation.
 - Do not silently swallow exceptions or leave unhappy paths unhandled.
 - Do not introduce abstraction unless it is used in more than one place.
 - Prefer built-in and framework-provided operations over manual equivalents. If a single operation achieves what multiple steps do (e.g. upsert over separate create and update), use it.
@@ -52,7 +55,7 @@
 
 - Follow the established style guide for the project's language and
   framework. Do not deviate unless the project does so intentionally.
-- Do not assume your knowledge of a library's API matches the version in use. When uncertain, look up the versioned documentation rather than working from prior knowledge.
+- Do not assume your knowledge of a library's API matches the version in use. When uncertain, look up the versioned documentation or read the installed dependency's source or type definitions rather than working from prior knowledge.
 - Respect the project's linter and formatter configuration. Do not
   disable rules inline without explicit approval.
 - Before writing any code that changes business logic, state which existing tests are affected and whether new tests are needed.
