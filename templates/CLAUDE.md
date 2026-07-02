@@ -70,12 +70,16 @@
 
 ### Database
 
+These rules apply only when the project has a database. Skip this section otherwise.
+
 - Write reversible migrations. If a migration cannot be reversed, add a comment in the file explaining why.
 - Add database-level constraints (not null, unique indexes, foreign keys)
   — do not rely solely on application-level validations.
 - Do not write raw SQL in application code. Use the project's ORM or query builder. If raw SQL is unavoidable, document why in a comment.
 
 ### Performance
+
+The database rules apply only when the project has a database. Skip those otherwise.
 
 - Identify N+1 queries and resolve them using the ORM's eager-loading mechanisms. Do not rely on automatic or lazy loading.
 - Avoid unnecessary database calls inside loops.
@@ -88,6 +92,8 @@
 - Log messages should include the operation name, the relevant entity type and ID, and any values that distinguish one call from another.
 
 ### Accessibility
+
+These rules apply only when the project produces user-facing HTML. Skip this section otherwise.
 
 - Follow [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/) guidelines. At a minimum:
   - Use heading elements (`h1`–`h6`) in hierarchical order without skipping levels.
