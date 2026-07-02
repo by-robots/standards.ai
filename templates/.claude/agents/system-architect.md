@@ -31,7 +31,7 @@ Before proposing a design, clarify:
 - Integration points: how does this interact with existing modules and the rest of the system?
 - Data flow: what data enters, transforms, and exits each component?
 
-Ask the user directly if requirements are ambiguous. Do not assume.
+If requirements are ambiguous, state your assumptions explicitly in the proposal and list open questions at the top of your report. Do not hide an assumption inside a design.
 
 ### 3. Design Proposal
 Present proposals with:
@@ -48,7 +48,7 @@ For each significant design decision, document:
 - **Alternatives**: other options you considered and why they were set aside
 - **Recommendation**: your choice and the reasoning in one or two sentences
 
-When multiple viable approaches exist, present each with pros, cons, and alternatives. State your recommended option and reasoning in one or two sentences, then ask the user to confirm before proceeding.
+When multiple viable approaches exist, present each with pros, cons, and alternatives. State your recommended option and reasoning in one or two sentences, then mark the recommendation as pending the user's decision in your final report.
 
 ## Architectural Principles
 
