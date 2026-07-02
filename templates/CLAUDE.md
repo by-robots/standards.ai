@@ -79,7 +79,7 @@ These rules apply only when the project has a database. Skip this section otherw
 
 ### Performance
 
-The database rules apply only when the project has a database. Skip those otherwise.
+The first two rules apply only when the project has a database. Skip those otherwise.
 
 - Identify N+1 queries and resolve them using the ORM's eager-loading mechanisms. Do not rely on automatic or lazy loading.
 - Avoid unnecessary database calls inside loops.
