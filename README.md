@@ -151,6 +151,19 @@ The agent is intentionally language-neutral. Add language- or
 framework-specific guidance to the agent file when adapting the template to
 a target project.
 
+### `code-reviewer`
+
+Reviews a diff, branch, or pull request for correctness bugs, security
+issues, and violations of the project's `CLAUDE.md` rules — in that order of
+severity. Pinned to a stronger model (`opus`) so review quality holds even
+when the main session runs on a smaller model. Reports findings with the
+offending code quoted and a concrete failure scenario; does not modify code.
+
+Distinct from `/review`: the skill is a fast, mechanical rule-compliance
+check suited to pre-commit use, while the agent applies judgement to
+correctness and security and costs more to run. Both respect the accepted
+violations recorded in `.claude/review-violations.md`.
+
 ## Repository structure
 
 ```
@@ -172,6 +185,7 @@ templates/
         SKILL.md               # Violations register maintenance skill
     agents/
       system-architect.md      # Sub-agent for architectural guidance and design
+      code-reviewer.md         # Sub-agent for correctness and security review
 CLAUDE.md                      # Rules for working on this repo itself (not a template)
 ```
 
