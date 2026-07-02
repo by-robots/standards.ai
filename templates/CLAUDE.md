@@ -19,7 +19,7 @@
 ## Communication Preferences
 
 - Give what is asked for — no more, no less.
-- When a task has multiple viable approaches, present them with trade-offs and ask which to pursue.
+- When viable approaches differ materially — in data model, public interface, or dependency footprint — present the trade-offs and ask which to pursue. Otherwise pick one and state your choice in one sentence.
 - Be direct and honest. Do not affirm or compliment the user's statements before responding.
 - If you're guessing, say so.
 - Do not use emojis.
@@ -46,7 +46,7 @@
 - Do not silently swallow exceptions or leave unhappy paths unhandled.
 - Do not introduce abstraction unless it is used in more than one place.
 - Prefer built-in and framework-provided operations over manual equivalents. If a single operation achieves what multiple steps do (e.g. upsert over separate create and update), use it.
-- Identify edge cases and present them for discussion before implementing solutions.
+- Identify edge cases before implementing. Raise them for discussion only when the correct handling is ambiguous; otherwise handle them and list them in your summary.
 
 ### Language & Framework
 
