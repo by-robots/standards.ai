@@ -72,7 +72,8 @@ templates/
   CLAUDE.md            # Shared rules template for Claude Code
   .claude/
     project.md         # Project-specific context (About, Stack, etc.)
-    skills/            # Skills for Claude Code
+    skills/
+      standards-ai/    # Skills-directory plugin bundling the skills and agents
 .claude/skills/        # Project-level skills for this repository
 ```
 

@@ -6,8 +6,8 @@ description: Generate the "About This Project" and "Project Context" sections fo
 Generate the "About This Project" and "Project Context" sections for this project.
 
 **Usage:**
-- `/about` — infers content from project files
-- `/about <hint>` — uses the hint to supplement inference
+- `/standards-ai:about` — infers content from project files
+- `/standards-ai:about <hint>` — uses the hint to supplement inference
 
 ## Instructions
 

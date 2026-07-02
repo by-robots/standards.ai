@@ -6,7 +6,7 @@ description: Fix a bug using a test-first workflow — reproduce, write a failin
 Fix a bug using a test-first workflow.
 
 **Usage:**
-- `/fix-bug <description>` — a description of the bug, or a reference to where it occurs
+- `/standards-ai:fix-bug <description>` — a description of the bug, or a reference to where it occurs
 
 ## Instructions
 

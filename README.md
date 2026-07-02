@@ -11,8 +11,8 @@ project-level instruction files. Other tools have not been tested.
 
 > [!WARNING]
 > Use caution when running skills. Some will use a large amount of tokens
-> if used without restriction (e.g. `/review .`) and could easily exhaust your
-> usage limits or incur costs.
+> if used without restriction (e.g. `/standards-ai:review .`) and could easily
+> exhaust your usage limits or incur costs.
 
 ## What's in the templates
 
@@ -47,7 +47,7 @@ startup. The project file holds the two sections specific to your project —
 **About This Project** and **Project Context** — and is kept separate so you
 can update the shared rules without overwriting your project-specific content.
 
-Run `/about` to populate those sections automatically (see
+Run `/standards-ai:about` to populate those sections automatically (see
 [Skills](#skills)), or fill them in manually.
 
 ## Skills
@@ -56,7 +56,19 @@ Skills are reusable prompt templates invoked directly from Claude
 Code's chat interface. They let you run common tasks against your project's
 own rules without writing a prompt each time.
 
-### `/about`
+The skills (and agents) are packaged as a [skills-directory
+plugin](https://code.claude.com/docs/en/plugins-reference#skills-directory-plugins)
+named `standards-ai`. Nothing changes about installation — you still just copy
+the files — but the skills load under a namespace (`/standards-ai:review`
+rather than `/review`), which prevents them colliding with Claude Code's
+built-in skills of the same name. Three things to be aware of:
+
+- The plugin loads after you accept the workspace trust dialog.
+- It loads from the `.claude/skills/` of the directory where Claude Code is
+  launched. If you launch from a subdirectory, run `/reload-plugins`.
+- Skills-directory plugins require a recent version of Claude Code.
+
+### `/standards-ai:about`
 
 Populates the **About This Project** and **Project Context** sections of your
 rules file from project signals — README, package manifests, version files, and
@@ -67,10 +79,10 @@ project isn't self-describing from its files alone.
 
 | Skill | Notes |
 |-------|-------|
-| `/about` | Infers from project files |
-| `/about <hint>` | Uses hint to supplement inference |
+| `/standards-ai:about` | Infers from project files |
+| `/standards-ai:about <hint>` | Uses hint to supplement inference |
 
-### `/review`
+### `/standards-ai:review`
 
 Evaluates code against the rules defined in your project's `CLAUDE.md`. Files
 are reviewed one at a time, each rule section is checked in turn, and
@@ -87,10 +99,10 @@ the skill will offer to add it to that file.
 
 | Skill | Scope |
 |-------|-------|
-| `/review` | Staged changes |
-| `/review <path>` | Specified file or directory |
+| `/standards-ai:review` | Staged changes |
+| `/standards-ai:review <path>` | Specified file or directory |
 
-### `/fix-bug`
+### `/standards-ai:fix-bug`
 
 Fixes a bug using a test-first workflow: reproduce, write a failing test,
 confirm it fails, implement the smallest fix, and run the scoped tests. Stops
@@ -102,9 +114,9 @@ than a standalone rule.
 
 | Skill | Notes |
 |-------|-------|
-| `/fix-bug <description>` | Description or location of the bug |
+| `/standards-ai:fix-bug <description>` | Description or location of the bug |
 
-### `/preflight`
+### `/standards-ai:preflight`
 
 Runs a pre-commit checklist against staged changes: linter, scoped tests,
 diff hygiene (debug statements, commented-out code, secrets), documentation
@@ -113,9 +125,9 @@ ready-to-commit verdict.
 
 | Skill | Scope |
 |-------|-------|
-| `/preflight` | Staged changes |
+| `/standards-ai:preflight` | Staged changes |
 
-### `/audit-violations`
+### `/standards-ai:audit-violations`
 
 Audits `.claude/review-violations.md` for stale or imprecise entries. For each
 entry, it checks whether the referenced file still exists, whether the context
@@ -127,13 +139,16 @@ Presents all proposed changes for confirmation before writing anything.
 
 | Skill | Notes |
 |-------|-------|
-| `/audit-violations` | Audits all entries in the violations register |
+| `/standards-ai:audit-violations` | Audits all entries in the violations register |
 
 ## Agents
 
 Agents are specialised sub-agents that Claude Code can delegate work to. Unlike
 skills, they run autonomously with their own context, tools, and persistent
 memory — suited to tasks that require sustained focus on a single concern.
+
+The agents ship inside the `standards-ai` plugin alongside the skills and are
+discovered automatically when the plugin loads.
 
 ### `system-architect`
 
@@ -159,10 +174,10 @@ severity. Pinned to a stronger model (`opus`) so review quality holds even
 when the main session runs on a smaller model. Reports findings with the
 offending code quoted and a concrete failure scenario; does not modify code.
 
-Distinct from `/review`: the skill is a fast, mechanical rule-compliance
-check suited to pre-commit use, while the agent applies judgement to
-correctness and security and costs more to run. Both respect the accepted
-violations recorded in `.claude/review-violations.md`.
+Distinct from `/standards-ai:review`: the skill is a fast, mechanical
+rule-compliance check suited to pre-commit use, while the agent applies
+judgement to correctness and security and costs more to run. Both respect the
+accepted violations recorded in `.claude/review-violations.md`.
 
 ## Repository structure
 
@@ -171,21 +186,25 @@ templates/
   CLAUDE.md                    # Shared rules template for Claude Code
   .claude/
     project.md                 # Project-specific context (About, Stack, etc.)
-    review-violations.md       # Accepted violations suppressed by /review
+    review-violations.md       # Accepted violations suppressed by the review skill
     skills/
-      about/
-        SKILL.md               # Project setup skill
-      review/
-        SKILL.md               # Code review skill
-      fix-bug/
-        SKILL.md               # Test-first bug-fixing skill
-      preflight/
-        SKILL.md               # Pre-commit checklist skill
-      audit-violations/
-        SKILL.md               # Violations register maintenance skill
-    agents/
-      system-architect.md      # Sub-agent for architectural guidance and design
-      code-reviewer.md         # Sub-agent for correctness and security review
+      standards-ai/            # Skills-directory plugin (loads as standards-ai)
+        .claude-plugin/
+          plugin.json          # Plugin manifest
+        skills/
+          about/
+            SKILL.md           # Project setup skill
+          review/
+            SKILL.md           # Code review skill
+          fix-bug/
+            SKILL.md           # Test-first bug-fixing skill
+          preflight/
+            SKILL.md           # Pre-commit checklist skill
+          audit-violations/
+            SKILL.md           # Violations register maintenance skill
+        agents/
+          system-architect.md  # Sub-agent for architectural guidance and design
+          code-reviewer.md     # Sub-agent for correctness and security review
 CLAUDE.md                      # Rules for working on this repo itself (not a template)
 ```
 

@@ -6,7 +6,7 @@ description: Run a pre-commit checklist against staged changes — linter, scope
 Run a pre-commit checklist against the staged changes.
 
 **Usage:**
-- `/preflight` — checks staged changes; stages and commits nothing itself
+- `/standards-ai:preflight` — checks staged changes; stages and commits nothing itself
 
 ## Instructions
 

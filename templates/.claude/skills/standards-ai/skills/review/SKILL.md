@@ -6,8 +6,8 @@ description: Review code against the rules defined in CLAUDE.md. Use when asked 
 Review code against the rules defined in CLAUDE.md.
 
 **Usage:**
-- `/review` — reviews staged changes only
-- `/review <path>` — reviews the file or directory at `<path>`
+- `/standards-ai:review` — reviews staged changes only
+- `/standards-ai:review <path>` — reviews the file or directory at `<path>`
 
 ## Instructions
 

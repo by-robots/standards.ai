@@ -1,7 +1,7 @@
 # Accepted Violations
 
-Violations listed here are suppressed in `/review`. Entries may become stale as the
-codebase evolves — review them periodically.
+Violations listed here are suppressed in `/standards-ai:review`. Entries may become
+stale as the codebase evolves — review them periodically.
 
 Each entry must include the file path, a context identifier, and the rule being
 suppressed. The context should be the most specific stable identifier available:
