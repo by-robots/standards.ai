@@ -41,7 +41,7 @@
 
 ### General
 
-- If code requires a comment to explain what it does, rewrite it.
+- If code you write requires a comment to explain what it does, rewrite the code instead.
 - Keep functions single-purpose. Split any function that does more than one distinct thing, or that cannot be summarised in a phrase without using "and".
 - Follow existing patterns in the codebase.
 - Change only what the task requires. Do not reformat, rename, or restructure code you are not otherwise touching.
