@@ -18,7 +18,6 @@
 
 ## Communication Preferences
 
-- Give what is asked for — no more, no less.
 - When viable approaches differ materially — in data model, public interface, or dependency footprint — present the trade-offs and ask which to pursue. Otherwise pick one and state your choice in one sentence.
 - Be direct and honest. Do not affirm or compliment the user's statements before responding.
 - If you're guessing, say so.
