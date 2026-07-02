@@ -104,6 +104,17 @@ than a standalone rule.
 |-------|-------|
 | `/fix-bug <description>` | Description or location of the bug |
 
+### `/preflight`
+
+Runs a pre-commit checklist against staged changes: linter, scoped tests,
+diff hygiene (debug statements, commented-out code, secrets), documentation
+impact, and commit atomicity. Reports pass/fail per check and ends with a
+ready-to-commit verdict.
+
+| Skill | Scope |
+|-------|-------|
+| `/preflight` | Staged changes |
+
 ### `/audit-violations`
 
 Audits `.claude/review-violations.md` for stale or imprecise entries. For each
@@ -155,6 +166,8 @@ templates/
         SKILL.md               # Code review skill
       fix-bug/
         SKILL.md               # Test-first bug-fixing skill
+      preflight/
+        SKILL.md               # Pre-commit checklist skill
       audit-violations/
         SKILL.md               # Violations register maintenance skill
     agents/
