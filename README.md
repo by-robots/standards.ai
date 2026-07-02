@@ -90,6 +90,20 @@ the skill will offer to add it to that file.
 | `/review` | Staged changes |
 | `/review <path>` | Specified file or directory |
 
+### `/fix-bug`
+
+Fixes a bug using a test-first workflow: reproduce, write a failing test,
+confirm it fails, implement the smallest fix, and run the scoped tests. Stops
+and reports rather than thrashing if the fix does not land after two attempts.
+
+The same workflow is required by the rules in `CLAUDE.md`; the skill makes it
+an explicit step-by-step procedure, which smaller models follow more reliably
+than a standalone rule.
+
+| Skill | Notes |
+|-------|-------|
+| `/fix-bug <description>` | Description or location of the bug |
+
 ### `/audit-violations`
 
 Audits `.claude/review-violations.md` for stale or imprecise entries. For each
@@ -139,6 +153,8 @@ templates/
         SKILL.md               # Project setup skill
       review/
         SKILL.md               # Code review skill
+      fix-bug/
+        SKILL.md               # Test-first bug-fixing skill
       audit-violations/
         SKILL.md               # Violations register maintenance skill
     agents/
