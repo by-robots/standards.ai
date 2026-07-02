@@ -72,10 +72,10 @@ project isn't self-describing from its files alone.
 
 ### `/review`
 
-Evaluates code against the rules defined in your project's `CLAUDE.md`. Each
-rule section is checked in turn and violations are reported with the offending
-code quoted alongside the rule being broken. Sections with no violations are
-omitted.
+Evaluates code against the rules defined in your project's `CLAUDE.md`. Files
+are reviewed one at a time, each rule section is checked in turn, and
+violations are reported with the offending code quoted alongside the rule
+being broken. Sections with no violations are omitted.
 
 Intended as a pre-commit check: run it against your staged changes before
 pushing to catch rule violations early. It can also be pointed at a specific

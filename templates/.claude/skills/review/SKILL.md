@@ -15,7 +15,7 @@ Review code against the rules defined in CLAUDE.md.
 2. If `$ARGUMENTS` is provided, read the files at that path. Otherwise, run `git diff --name-only --cached` to get the list of staged files and read those.
 3. Read `.claude/review-violations.md` if it exists. When a violation is found, check whether it matches an entry by file path, context (method, class, or table/column name), and rule. If all three match, skip it.
 4. For any migration file under review that appears to add a column or table without a database-level constraint (not null, unique index, foreign key), list all other migration files in the same directory, ordered by filename. If a migration with a later filename adds the missing constraint, do not flag the violation.
-5. For each rule in `CLAUDE.md`, check whether the code under review follows it.
+5. Review one file at a time. For each file, check every rule in `CLAUDE.md` and record any violations before moving to the next file. Do not attempt to review all files in a single pass.
 6. Report findings grouped by `CLAUDE.md` section (e.g. Security, Coding Conventions).
 7. For each finding, state the file and the offending code, and quote the rule being violated.
 8. Omit sections where no violations were found.
