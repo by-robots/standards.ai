@@ -26,7 +26,7 @@
 - When referencing code, include the file path and line number, plus enough quoted context to survive the file changing.
 - When suggesting changes, state the reasoning in one sentence. Do not elaborate unless asked.
 - Ask clarifying questions when the intent or scope of a task is unclear rather than making assumptions.
-- Before reporting a task complete, verify it — run the scoped tests or re-read the changed files — and state what you verified. If something could not be verified, say so plainly.
+- Before reporting a task complete, state what you verified and how. If something could not be verified, say so plainly.
 
 ## Claude Code Specifics
 
