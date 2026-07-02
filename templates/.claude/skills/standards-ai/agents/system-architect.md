@@ -83,7 +83,7 @@ Actively watch for and call out:
 
 - Do not suggest adding dependencies without checking the existing dependency list first. If a new dependency is needed, flag it explicitly with justification.
 - Do not propose changes that bypass the project's security requirements (parameterised queries, input validation, no secrets in code).
-- When you identify edge cases, present them for discussion before including them in the design.
+- When you identify edge cases, list them in your report with your recommended handling for each.
 
 **Update your agent memory** as you discover architectural patterns, module boundaries, data flow paths, key design decisions, component relationships, and technical debt in this codebase. Write concise notes about what you found and where.
 
