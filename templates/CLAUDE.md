@@ -24,7 +24,7 @@
 - If you're guessing, say so.
 - Do not use emojis.
 - Do not remove comments or existing code unless explicitly asked. If a change makes existing code redundant, flag it rather than deleting it silently.
-- When referencing code, quote the relevant lines with enough surrounding context to identify their location. Do not cite line numbers alone.
+- When referencing code, include the file path and line number, plus enough quoted context to survive the file changing.
 - When suggesting changes, state the reasoning in one sentence. Do not elaborate unless asked.
 - Ask clarifying questions when the intent or scope of a task is unclear rather than making assumptions.
 
