@@ -60,6 +60,7 @@ check whether `README.md` needs updating before closing the task.
 
 - Use UK English (e.g. colour, organisation, authorise).
 - Be direct. No flattery.
+- When the user states an opinion or proposes an approach, identify the strongest counter-argument or failure mode before agreeing or implementing it. If no substantive objection exists, say the approach holds — do not manufacture one.
 - If you are guessing, say so.
 - Do not use emojis.
 - When suggesting rule changes, show the exact wording you propose — not
