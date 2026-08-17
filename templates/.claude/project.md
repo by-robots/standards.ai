@@ -19,5 +19,5 @@
 ## Project Overrides
 
 <!-- Rules that apply to this project only, including any deliberate departure
-     from the shared rules in CLAUDE.md or .claude/conventions.md. State which
-     rule is being overridden and why. Leave empty if there are none. -->
+     from the shared rules in .claude/rules/. State which rule is being
+     overridden and why. Leave empty if there are none. -->
