@@ -40,6 +40,10 @@ versioning follows [Semantic Versioning](https://semver.org/):
   first and match it, or say why you deviated. Neither original could be
   checked by reading the output.
 
+- `code-reviewer` and `system-architect` no longer pin `model: opus`. A
+  hardcoded model name ages badly in a template distributed across projects.
+  Both inherit the session's model; a comment explains how to pin one.
+
 - `review` scopes each file to the rule sections that can apply to its type
   rather than sweeping every rule against every file, and asks before
   reading more than 20 files. This addresses the token cost the README

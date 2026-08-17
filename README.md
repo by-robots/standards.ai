@@ -217,9 +217,12 @@ a target project.
 
 Reviews a diff, branch, or pull request for correctness bugs, security
 issues, and violations of the project's `CLAUDE.md` rules — in that order of
-severity. Pinned to a stronger model (`opus`) so review quality holds even
-when the main session runs on a smaller model. Reports findings with the
-offending code quoted and a concrete failure scenario; does not modify code.
+severity. Reports findings with the offending code quoted and a concrete
+failure scenario; does not modify code.
+
+Both agents inherit the session's model rather than pinning one, so they stay
+current as models change. If you routinely work on a smaller model, add a
+`model:` line to an agent's frontmatter to pin a stronger one for that agent.
 
 Distinct from `/standards-ai:review`: the skill is a fast, mechanical
 rule-compliance check suited to pre-commit use, while the agent applies
