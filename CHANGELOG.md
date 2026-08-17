@@ -14,6 +14,13 @@ versioning follows [Semantic Versioning](https://semver.org/):
 
 ## [Unreleased]
 
+### Changed
+
+- `review`, `preflight` and the `code-reviewer` agent now state their
+  boundaries in the descriptions the model routes on, so an ambiguous
+  "review my changes" no longer picks one at random. The agent asks which
+  the user wants instead of defaulting to the expensive path.
+
 ## [1.1.0] — 2026-08-17
 
 ### Added

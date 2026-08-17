@@ -1,12 +1,16 @@
 ---
 name: preflight
-description: Run a pre-commit checklist against staged changes — linter, scoped tests, diff hygiene, documentation impact, and commit atomicity. Use before committing.
+description: Run the project's linter and scoped tests against staged changes, then check the diff for debug statements, secrets, documentation impact, and commit atomicity. Use immediately before committing. Does not sweep the CLAUDE.md rules (use the review skill) or hunt for bugs (use the code-reviewer agent).
 ---
 
 Run a pre-commit checklist against the staged changes.
 
 **Usage:**
 - `/standards-ai:preflight` — checks staged changes; stages and commits nothing itself
+
+**Scope:** tooling and diff hygiene only. Do not sweep the rules in
+`CLAUDE.md` — that is `/standards-ai:review`. The hygiene checks below are
+fixed; run them as written rather than expanding them into a rule audit.
 
 ## Instructions
 
@@ -24,3 +28,4 @@ checks and report the findings together.
 5. Check whether the staged changes affect setup, configuration, or usage described in the README or other documentation. Flag any documentation that needs updating.
 6. Check that the staged changes form one logical change. If unrelated changes are mixed together, suggest how to split them.
 7. Report the results as a checklist — one line per check, pass or fail, with findings underneath. End with a one-line verdict: ready to commit, or not, and why.
+8. If the verdict is "ready to commit", add one line suggesting `/standards-ai:review` for a rule-compliance pass if the change has not had one.

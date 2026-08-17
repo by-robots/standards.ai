@@ -1,13 +1,17 @@
 ---
 name: review
-description: Review code against the rules defined in CLAUDE.md. Use when asked to review staged changes or a specific file or directory for rule violations.
+description: Check code against the rules in CLAUDE.md and report violations. A mechanical rule-compliance pass — it runs no tooling and hunts no bugs. Use when asked to check staged changes or a path for rule violations. Not for pre-commit linting and tests (use the preflight skill) or for correctness and security judgement (use the code-reviewer agent).
 ---
 
-Review code against the rules defined in CLAUDE.md.
+Check code against the rules defined in CLAUDE.md and its imports.
 
 **Usage:**
-- `/standards-ai:review` — reviews staged changes only
-- `/standards-ai:review <path>` — reviews the file or directory at `<path>`
+- `/standards-ai:review` — checks staged changes only
+- `/standards-ai:review <path>` — checks the file or directory at `<path>`
+
+**Scope:** rule compliance only. Do not run the linter or the tests — that is
+`/standards-ai:preflight`. Do not report bugs, security holes, or design
+problems that no rule covers — that is the `code-reviewer` agent.
 
 ## Instructions
 

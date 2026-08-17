@@ -82,6 +82,20 @@ Skills are reusable prompt templates invoked directly from Claude
 Code's chat interface. They let you run common tasks against your project's
 own rules without writing a prompt each time.
 
+### Which review do I want?
+
+Three things review code, and they do not overlap:
+
+| | Checks | Runs tooling | Cost |
+|---|---|---|---|
+| `/standards-ai:review` | `CLAUDE.md` rule compliance | No | Low |
+| `/standards-ai:preflight` | Linter, scoped tests, diff hygiene, docs, atomicity | Yes | Low |
+| `code-reviewer` agent | Correctness bugs and security issues, plus rules | No | High |
+
+`preflight` before every commit, `review` when you want a rule sweep, and the
+agent for changes where a bug would be expensive — auth, payments, data
+migrations, anything security-sensitive.
+
 The skills (and agents) are packaged as a [skills-directory
 plugin](https://code.claude.com/docs/en/plugins-reference#skills-directory-plugins)
 named `standards-ai`. Nothing changes about installation — you still just copy
@@ -203,7 +217,9 @@ offending code quoted and a concrete failure scenario; does not modify code.
 Distinct from `/standards-ai:review`: the skill is a fast, mechanical
 rule-compliance check suited to pre-commit use, while the agent applies
 judgement to correctness and security and costs more to run. Both respect the
-accepted violations recorded in `.claude/review-violations.md`.
+accepted violations recorded in `.claude/review-violations.md`. When a request
+is ambiguous between the two, the agent asks rather than assuming — see
+[Which review do I want?](#which-review-do-i-want).
 
 ## Repository structure
 
