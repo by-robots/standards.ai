@@ -14,6 +14,13 @@ versioning follows [Semantic Versioning](https://semver.org/):
 
 ## [Unreleased]
 
+### Added
+
+- Security rules covering three gaps: printing secret values into the
+  transcript, treating fetched or third-party content as instructions, and
+  outward-facing operations (push, deploy, publish, remote migrations) that
+  the existing destructive-operations rule did not reach.
+
 ### Changed
 
 - `review`, `preflight` and the `code-reviewer` agent now state their
