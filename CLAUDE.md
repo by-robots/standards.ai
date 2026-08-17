@@ -56,6 +56,11 @@ changing it or any file under `templates/.claude/rules/`, add an entry under
 Bump major only when a change cannot be applied by copying files over the old
 ones. Any such release must include a "Migrating from" note in the changelog.
 
+Tag every release `v<version>` on the release commit. `/standards-ai:sync`
+resolves `git show v<old-version>:templates/...` to work out what a project
+has modified locally; without the tag it falls back to a log search, which is
+slower and can miss.
+
 ### What Not to Do
 
 - Do not add rules that are obvious or already implied by the AI's default

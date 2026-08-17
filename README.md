@@ -79,24 +79,42 @@ and worktrees. Skills load namespaced, as `/standards-ai:review` rather than
 The rules live in `.claude/rules/`, so they need to reach each project. Pick
 one of two approaches — copy for repositories you share, symlink for your own.
 
-Both need the entry point, which imports `project.md` and states the
-precedence rule:
+Both need the entry point and the project file:
 
 ```sh
-cp ~/Code/standards.ai/templates/CLAUDE.md /path/to/your/project/CLAUDE.md
-cp ~/Code/standards.ai/templates/.claude/project.md /path/to/your/project/.claude/project.md
+cd /path/to/your/project
+mkdir -p .claude
+cp -n ~/Code/standards.ai/templates/.claude/project.md .claude/project.md
 ```
+
+`cp -n` will not overwrite an existing `project.md` — that file holds content
+you wrote, and no update should ever replace it.
+
+For `CLAUDE.md`, check whether the project already has one:
+
+```sh
+# existing file: append
+{ echo; cat ~/Code/standards.ai/templates/CLAUDE.md; } >> CLAUDE.md
+# no existing file: copy
+cp ~/Code/standards.ai/templates/CLAUDE.md CLAUDE.md
+```
+
+> [!WARNING]
+> The template `CLAUDE.md` is a nine-line entry point, not the rules
+> themselves. Copying it over a `CLAUDE.md` that already has content discards
+> that content. Append instead, then delete the duplicate `# CLAUDE.md`
+> heading.
 
 #### Option A: copy (default)
 
 Real files, committed to the project, working for anyone who clones it:
 
 ```sh
-mkdir -p /path/to/your/project/.claude/rules
-cp -R ~/Code/standards.ai/templates/.claude/rules/. /path/to/your/project/.claude/rules/
+mkdir -p .claude/rules
+cp -R ~/Code/standards.ai/templates/.claude/rules/. .claude/rules/
 ```
 
-The trailing `/.` matters — `cp -R templates/.claude/rules <dest>/.claude/rules/`
+The trailing `/.` matters — `cp -R templates/.claude/rules .claude/rules/`
 would nest a second `rules` directory inside the first.
 
 #### Option B: symlink (auto-updating)
@@ -105,8 +123,8 @@ Link the directory instead of copying it. `.claude/rules/` is discovered
 recursively and follows symlinks, so a subdirectory works:
 
 ```sh
-mkdir -p /path/to/your/project/.claude/rules
-ln -s ~/Code/standards.ai/templates/.claude/rules /path/to/your/project/.claude/rules/standards
+mkdir -p .claude/rules
+ln -s ~/Code/standards.ai/templates/.claude/rules .claude/rules/standards
 ```
 
 Then `git pull` in `~/Code/standards.ai` updates every linked project at once,
@@ -206,12 +224,15 @@ be replaced wholesale without losing project-specific content. Where a rule in
 
 ### Versions
 
-`CLAUDE.md` carries a version marker on its first line, so you can tell which
-release a project last received:
+`CLAUDE.md` carries a version marker, so you can tell which release a project
+last received:
 
 ```sh
-head -n 1 /path/to/your/project/CLAUDE.md
+grep -m1 'standards-ai template' /path/to/your/project/CLAUDE.md
 ```
+
+Use `grep`, not `head -n 1` — if you appended the template to an existing
+`CLAUDE.md`, the marker is not on the first line.
 
 Compare it against [CHANGELOG.md](CHANGELOG.md) to see what has changed since.
 Projects using the symlink (Option B) always read the current version, so the
