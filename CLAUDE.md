@@ -86,8 +86,16 @@ templates/
     conventions.md     # Shared style and language conventions
     skills/
       standards-ai/    # Skills-directory plugin bundling the skills and agents
+.claude-plugin/
+  marketplace.json     # Marketplace catalogue pointing at the plugin above
 .claude/skills/        # Project-level skills for this repository
 ```
+
+This repository is itself a plugin marketplace. `marketplace.json` lists the
+plugin with a path relative to the repository root — absolute paths fail
+validation. It carries no `version`; the version comes from the plugin's own
+`plugin.json`, so there is one place to bump. Run `claude plugin validate .`
+after changing either manifest.
 
 The template is copied into target projects and adapted per project.
 `CLAUDE.md` and `.claude/conventions.md` are overwritten on update;

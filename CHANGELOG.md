@@ -14,6 +14,14 @@ versioning follows [Semantic Versioning](https://semver.org/):
 
 ## [Unreleased]
 
+### Added
+
+- `.claude-plugin/marketplace.json` at the repository root, making this repo a
+  plugin marketplace. The skills and agents can now be installed once at user
+  scope instead of being copied into each project, and updated with
+  `git pull` plus `/plugin marketplace update`.
+- An `author` field in `plugin.json`, clearing the only validation warning.
+
 ## [2.0.0] — 2026-08-17
 
 ### Added

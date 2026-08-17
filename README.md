@@ -296,6 +296,8 @@ templates/
         agents/
           system-architect.md  # Sub-agent for architectural guidance and design
           code-reviewer.md     # Sub-agent for correctness and security review
+.claude-plugin/
+  marketplace.json             # Marketplace catalogue, for installing the plugin
 CLAUDE.md                      # Rules for working on this repo itself (not a template)
 CHANGELOG.md                   # Template version history and migration notes
 ```

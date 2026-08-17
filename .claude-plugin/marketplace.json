@@ -1,0 +1,15 @@
+{
+  "name": "standards-ai",
+  "owner": {
+    "name": "By Robots",
+    "url": "https://github.com/by-robots"
+  },
+  "description": "Opinionated skills and agents for consistent, security-conscious AI assistance.",
+  "plugins": [
+    {
+      "name": "standards-ai",
+      "source": "./templates/.claude/skills/standards-ai",
+      "description": "Review, preflight, commit, bug-fixing and project-setup skills, plus code-reviewer and system-architect agents."
+    }
+  ]
+}
