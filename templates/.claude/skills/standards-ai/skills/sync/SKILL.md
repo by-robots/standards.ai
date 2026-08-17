@@ -22,7 +22,7 @@ template repository.
    - `.claude/rules/` — compare file by file, and list rule files that are new in the source or no longer present in it
    - `.claude/skills/standards-ai/`, if the project has it. Skip it if the plugin is installed from a marketplace instead.
 
-   Do not diff `.claude/project.md` or `.claude/review-violations.md`. Those hold the user's own content and are never overwritten.
+   Do not diff `.claude/project.md`, `.claude/review-violations.md`, or `.claude/security-exceptions.md`. Those hold the user's own content and are never overwritten. If the project does not have one of the register files at all, offer to add it — a missing register is not a local edit.
 7. Report, before changing anything:
    - The version change.
    - The changelog entries that apply.
@@ -30,6 +30,6 @@ template repository.
    - **Any local modification that would be lost.** Compare each project file against the *old* version of the same file in the source repository: `git show v<old-version>:templates/...`, falling back to `git log -S'standards-ai template v<old-version>' -- templates/CLAUDE.md` to find the commit if that tag does not exist. If neither resolves, say the comparison could not be made rather than assuming there are no local edits. Anything differing is a local edit that overwriting will discard — list it and quote it. This is the one thing the user cannot recover afterwards, so do not summarise it, show it.
    - Any `paths:` frontmatter the project has tuned to its own layout. Overwriting a scoped rule file silently reverts those globs, which stops the rule matching anything without producing an error.
 8. Ask for confirmation. If any local modification was found, ask specifically what to do with it before proceeding.
-9. On approval, copy the approved rule files over, and replace the template block within `CLAUDE.md` rather than overwriting the whole file. Do not touch `project.md` or `review-violations.md`. Never delete a rule file the project has that the source does not — report it and let the user decide.
+9. On approval, copy the approved rule files over, and replace the template block within `CLAUDE.md` rather than overwriting the whole file. Do not touch `project.md`, `review-violations.md`, or `security-exceptions.md`. Never delete a rule file the project has that the source does not — report it and let the user decide.
 10. Apply any migration steps the changelog describes, presenting each one for approval separately — they change content the user wrote.
 11. Report what was copied, what was skipped, and any migration step left for the user to do by hand.

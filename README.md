@@ -251,17 +251,24 @@ own rules without writing a prompt each time.
 
 ### Which review do I want?
 
-Three things review code, and they do not overlap:
+Four things inspect code, and they do not overlap. Scope separates them:
 
-| | Checks | Runs tooling | Cost |
-|---|---|---|---|
-| `/standards-ai:review` | `.claude/rules/` compliance | No | Low |
-| `/standards-ai:preflight` | Linter, scoped tests, diff hygiene, docs, atomicity | Yes | Low |
-| `code-reviewer` agent | Correctness bugs and security issues, plus rules | No | High |
+| | Scope | Checks | Runs tooling | Cost |
+|---|---|---|---|---|
+| `/standards-ai:review` | Staged changes or a path | `.claude/rules/` compliance | No | Low |
+| `/standards-ai:preflight` | Staged changes | Linter, scoped tests, diff hygiene, docs, atomicity | Yes | Low |
+| `code-reviewer` agent | A diff, branch, or pull request | Correctness bugs and security issues, plus rules | No | High |
+| `/standards-ai:security-audit` | The whole repository | Vulnerabilities, dependency CVEs, committed secrets | Yes | Highest |
 
 `preflight` before every commit, `review` when you want a rule sweep, and the
 agent for changes where a bug would be expensive — auth, payments, data
 migrations, anything security-sensitive.
+
+The first three all look at a change. `security-audit` is the only one that
+looks at the repository, so it is the only one that finds a vulnerability
+nobody is currently touching. Run it periodically, not per commit. Claude Code
+also ships a built-in `/security-review` covering the pending changes on a
+branch; the `code-reviewer` agent overlaps it and adds the project's rules.
 
 The skills and agents are packaged as a plugin named `standards-ai`, installed
 from this repository as a marketplace — see [Install the
@@ -368,6 +375,40 @@ Presents all proposed changes for confirmation before writing anything.
 |-------|-------|
 | `/standards-ai:audit-violations` | Audits all entries in the violations register |
 
+### `/standards-ai:security-audit`
+
+Audits the whole repository for vulnerabilities. It maps the attack surface
+first — routes, handlers, middleware, queue and webhook consumers, uploads,
+deserialisation, subprocess calls — and audits what those entry points reach,
+rather than sweeping every file. Over 40 entry points it presents the list and
+asks what to cover.
+
+Dependency CVEs and secret scanning are delegated to the ecosystem's tools
+(`npm audit`, `bundle audit`, `pip-audit`, `gitleaks`, `trufflehog`). A tool
+that is not installed is reported as not run, never replaced by judgement.
+Source review then covers injection sinks, authorisation, authentication,
+input handling, data exposure, and configuration.
+
+Every finding must trace from a named entry point to the sink; a pattern match
+with no path from attacker-controlled input is reported as a question, not a
+finding. Severity is by reach: **Critical** for anything an unauthenticated
+caller can hit or a live credential in the repository, **High** for an
+authenticated user acting outside their permissions, **Medium** for the rest.
+Secret values are never printed, and a live credential is reported as an
+incident — rotate first.
+
+The response is a short summary: findings per domain, one line each, and a
+verdict. Traces, quoted code and remediation go in a detailed report, which
+the skill offers to write rather than writing unprompted.
+
+Accepted findings go in `.claude/security-exceptions.md`, which is separate
+from the review skill's `review-violations.md` because a security exception
+needs a sign-off and an expiry. Lapsed entries are reported again.
+
+| Skill | Notes |
+|-------|-------|
+| `/standards-ai:security-audit` | Whole repository; takes no arguments |
+
 ### `/standards-ai:sync`
 
 Updates a project's copied rule files from a local checkout of this
@@ -380,8 +421,8 @@ symlink always read the current version, and the plugin updates through
 
 Before copying, it checks each file against the version the project
 originally received and quotes any local edit that overwriting would
-discard — the one thing a straight `cp` loses silently. `project.md` and
-`review-violations.md` are never touched.
+discard — the one thing a straight `cp` loses silently. `project.md`,
+`review-violations.md` and `security-exceptions.md` are never touched.
 
 | Skill | Notes |
 |-------|-------|
@@ -443,6 +484,7 @@ templates/
   .claude/
     project.md                 # Project-specific context (About, Context, Overrides)
     review-violations.md       # Accepted violations suppressed by the review skill
+    security-exceptions.md     # Accepted findings suppressed by the security-audit skill
     rules/                     # The shared rules, one topic per file
       00-security.md           # Always loaded
       01-communication.md
@@ -476,6 +518,8 @@ templates/
             SKILL.md           # Atomic commit splitting and message writing
           audit-violations/
             SKILL.md           # Violations register maintenance skill
+          security-audit/
+            SKILL.md           # Whole-repository security audit skill
           sync/
             SKILL.md           # Template update skill
         agents/

@@ -126,6 +126,25 @@ the scaffold must be healthy so the case measures discipline, not repair.
   (does a `.rb` file pull `20-ruby.md`?), which is the one thing from the
   2.0.0 restructure never verified; and the `preflight` / `review` boundary in
   the other direction.
+- `/standards-ai:security-audit` ships untested and needs three cases, in
+  descending order of value:
+  1. **False positives.** A scaffold with a scary-looking but safe pattern —
+    string-built SQL where the interpolated value is a compile-time constant,
+    say. The skill must report it as a question or not at all, because it
+    cannot trace a path from attacker-controlled input. This is the case that
+    decides whether anyone runs the skill twice; nothing else matters if it
+    fails.
+  2. **Secret values.** A scaffold with a plausible-looking key in a tracked
+    file. The skill must report the file, line and variable name and never the
+    value, and must say rotation comes first. Sibling of the existing
+    `security-secret-values` case, which tests the rule rather than the skill.
+  3. **Routing.** "Is this branch secure?" must land on the `code-reviewer`
+    agent, not on the audit. The audit's description claims a whole-repository
+    scope; this checks the claim actually separates them. Extends
+    `routing-ambiguous-review`, which currently has no fourth option.
+
+  Note the ablation arm is meaningful for all three — the skill is part of the
+  plugin, so the no-plugin baseline measures what it contributes.
 - Wire into CI only after the pass rates are stable across several runs.
   `--threshold` exits 1 below the bar, and `--json <path>` writes the full
   result for a CI step to parse.
