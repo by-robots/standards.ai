@@ -27,6 +27,11 @@ versioning follows [Semantic Versioning](https://semver.org/):
 
 ### Changed
 
+- "Follow existing patterns in the codebase" and "Follow the established
+  style guide" are replaced by one testable rule: read a comparable file
+  first and match it, or say why you deviated. Neither original could be
+  checked by reading the output.
+
 - `review`, `preflight` and the `code-reviewer` agent now state their
   boundaries in the descriptions the model routes on, so an ambiguous
   "review my changes" no longer picks one at random. The agent asks which
