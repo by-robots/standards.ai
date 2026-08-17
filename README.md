@@ -174,6 +174,21 @@ ready-to-commit verdict.
 |-------|-------|
 | `/standards-ai:preflight` | Staged changes |
 
+### `/standards-ai:commit`
+
+Splits the current changes into atomic commits and writes Conventional Commit
+messages for them. Presents the grouping and the full messages for approval
+before staging anything, stages each group by path, and does not push.
+
+Refuses to commit to the default branch without an explicit go-ahead, and
+stops rather than guessing when a single file contains changes belonging to
+two different commits.
+
+| Skill | Scope |
+|-------|-------|
+| `/standards-ai:commit` | All uncommitted changes |
+| `/standards-ai:commit <scope>` | Specified files or directories |
+
 ### `/standards-ai:audit-violations`
 
 Audits `.claude/review-violations.md` for stale or imprecise entries. For each
@@ -253,6 +268,8 @@ templates/
             SKILL.md           # Test-first bug-fixing skill
           preflight/
             SKILL.md           # Pre-commit checklist skill
+          commit/
+            SKILL.md           # Atomic commit splitting and message writing
           audit-violations/
             SKILL.md           # Violations register maintenance skill
         agents/

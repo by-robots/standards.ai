@@ -24,6 +24,9 @@ versioning follows [Semantic Versioning](https://semver.org/):
   the default branch.
 - Claude Code rules against creating unrequested files and against starting
   long-running processes without asking.
+- `/standards-ai:commit` — splits changes into atomic commits and writes
+  Conventional Commit messages, with approval before staging. Pairs with
+  `preflight`, which checks the same changes but commits nothing.
 
 ### Fixed
 
