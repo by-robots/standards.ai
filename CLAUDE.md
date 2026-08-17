@@ -72,15 +72,19 @@ check whether `README.md` needs updating before closing the task.
 templates/
   CLAUDE.md            # Shared rules template for Claude Code
   .claude/
-    project.md         # Project-specific context (About, Stack, etc.)
+    project.md         # Per-project content (About, Context, Overrides)
+    conventions.md     # Shared style and language conventions
     skills/
       standards-ai/    # Skills-directory plugin bundling the skills and agents
 .claude/skills/        # Project-level skills for this repository
 ```
 
-The template is copied into target projects and adapted per project. The
-`Project Context` section at the bottom is intentionally left as a placeholder
-for per-project customisation.
+The template is copied into target projects and adapted per project.
+`CLAUDE.md` and `.claude/conventions.md` are overwritten on update;
+`.claude/project.md` is not, and holds everything the user writes by hand.
+When adding a rule, put it in `conventions.md` if it is language- or
+style-specific, and in `CLAUDE.md` otherwise. Never add shared rules to
+`project.md` — updates cannot reach them there.
 
 ## Git & Workflow
 

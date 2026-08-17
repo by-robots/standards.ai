@@ -22,16 +22,19 @@ Each template covers:
   injection risks.
 - **Communication** — tone, language (UK English), and how the AI should
   propose changes.
-- **Coding conventions** — general principles plus language-specific rules
-  for Ruby, TypeScript/JavaScript, CSS, and database migrations.
+- **Coding conventions** — general principles, testing, database,
+  performance, logging, accessibility, and dependency management.
+- **Language conventions** — style rules for Ruby, TypeScript/JavaScript,
+  CSS, and mark-up.
 - **Git workflow** — Conventional Commits, atomic changes, no AI
   co-author entries.
 - **Project context** — a placeholder section you fill in per repository
   (stack, versions, architecture, deployment).
 
-The template includes language-specific sections for Ruby and
-TypeScript/JavaScript. Keep the ones relevant to your stack and delete
-the rest.
+Sections that do not apply to your project — the database rules on a project
+with no database, the Ruby rules on a TypeScript project — say so at the top
+and are skipped. You do not need to delete them, and leaving them in place
+keeps future updates a straight file copy.
 
 ## Usage
 
@@ -42,13 +45,23 @@ cp templates/CLAUDE.md /path/to/your/project/CLAUDE.md
 cp -r templates/.claude /path/to/your/project/.claude/
 ```
 
-`CLAUDE.md` contains the shared rules and imports `.claude/project.md` at
-startup. The project file holds the two sections specific to your project —
-**About This Project** and **Project Context** — and is kept separate so you
-can update the shared rules without overwriting your project-specific content.
+The templates are split into three files by how often you edit them:
 
-Run `/standards-ai:about` to populate those sections automatically (see
-[Skills](#skills)), or fill them in manually.
+| File | Contents | On update |
+|------|----------|-----------|
+| `CLAUDE.md` | Shared rules — security, communication, coding conventions, git | Overwritten |
+| `.claude/conventions.md` | Shared style rules — UK English, Conventional Commits, Ruby, TypeScript, CSS, mark-up | Overwritten |
+| `.claude/project.md` | **About This Project**, **Project Context**, **Project Overrides** | Never overwritten |
+
+`CLAUDE.md` imports the other two at startup. Keeping everything you write by
+hand in `project.md` means you can copy a newer `CLAUDE.md` and
+`conventions.md` over the old ones without losing project-specific content.
+
+Where a rule in `project.md` conflicts with the shared rules, the project rule
+wins — use the **Project Overrides** section to record deliberate departures.
+
+Run `/standards-ai:about` to populate the About and Project Context sections
+automatically (see [Skills](#skills)), or fill them in manually.
 
 ## Skills
 
@@ -185,7 +198,8 @@ accepted violations recorded in `.claude/review-violations.md`.
 templates/
   CLAUDE.md                    # Shared rules template for Claude Code
   .claude/
-    project.md                 # Project-specific context (About, Stack, etc.)
+    project.md                 # Project-specific context (About, Context, Overrides)
+    conventions.md             # Shared style and language conventions
     review-violations.md       # Accepted violations suppressed by the review skill
     skills/
       standards-ai/            # Skills-directory plugin (loads as standards-ai)

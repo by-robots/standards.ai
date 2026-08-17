@@ -1,6 +1,11 @@
 # CLAUDE.md
 
 @.claude/project.md
+@.claude/conventions.md
+
+Where a rule in `.claude/project.md` conflicts with one here or in
+`.claude/conventions.md`, the project rule wins. Say which rule you applied and
+which it overrode.
 
 ## Security — Read This First
 
