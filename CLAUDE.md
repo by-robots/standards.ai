@@ -69,8 +69,11 @@ that a case covers, check whether its `graders/criteria.md` still describes
 the behaviour you want — a criteria file that quotes superseded wording will
 pass against the wrong thing.
 
-The suite has not been run; `plugin eval` is in early access. Do not describe
-a case as passing until someone has actually run it.
+The suite has not been run; `plugin eval` is in early access and is not
+enabled on this account. Do not describe a case as passing until someone has
+actually run it. Outstanding work and the first-run instructions are in
+`evals/TODO.md` — read it before touching the suite, and update it rather
+than duplicating its content elsewhere.
 
 ### What Not to Do
 

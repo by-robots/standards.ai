@@ -45,31 +45,12 @@ case tests. `fix-bug-test-first` ships a runnable `make test` whose existing
 test passes, so the case measures test-first discipline rather than the
 model's ability to repair a broken harness.
 
-Once early access is enabled:
-
-```sh
-claude plugin eval standards-ai --ablation with-without --no-publish
-```
-
-`--no-publish` keeps the HTML report local; publishing to claude.ai is the
-default. `--max-cost-usd` is worth setting on the first run — each case runs
-three times by default, and the LLM graders cost extra on top.
+Once early access is enabled, see [TODO.md](TODO.md) for the first-run command
+and its flags. Do not run it blind — the scaffolds are not yet wired into the
+cases, and the default threshold of 1.0 will fail.
 
 ## What still needs doing
 
-- **Wire the scaffolds in.** `scaffold_script` is a case field, it runs only
-  under `--scaffold`, and it executes author-supplied bash as you. The
-  `case.yaml` schema is not published, so the scaffolds are currently a
-  standalone script rather than being declared per case. Once you can read the
-  schema, add `scaffold_script: ../scaffold.sh <case-name>` or the equivalent.
-- **No `case.yaml` anywhere.** These cases use the `prompt.md` +
-  `graders/criteria.md` form, which is what `--bare` generates and needs no
-  schema knowledge. Per-case `runs`, `tags`, `max_turns` and `timeout_seconds`
-  all live in `case.yaml` and are therefore unset.
-- **Tune the threshold.** It defaults to 1.0, which will almost certainly fail
-  on graded behaviour. Find the real pass rate before wiring this into
-  anything that gates a commit.
-- **Grader format is assumed.** `graders/*.md` are written as markdown rubrics
-  for the LLM grader. If the grader expects structured frontmatter or a
-  specific heading contract, these need reshaping — the content survives, the
-  packaging may not.
+See [TODO.md](TODO.md) — how to unblock early access, the exact first-run
+command, what to expect when it fails, and the `case.yaml` wiring gap. Read it
+before the first run rather than after.

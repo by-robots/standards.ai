@@ -484,6 +484,7 @@ templates/
 .claude-plugin/
   marketplace.json             # Marketplace catalogue, for installing the plugin
 evals/                         # claude plugin eval suite (see evals/README.md)
+  TODO.md                      # Outstanding work; read before the first run
   scaffold.sh                  # Builds a working directory per case
   <case>/prompt.md             # The prompt under test
   <case>/graders/criteria.md   # How that case is scored
