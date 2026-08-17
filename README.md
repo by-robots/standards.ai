@@ -81,6 +81,9 @@ Compare it against [CHANGELOG.md](CHANGELOG.md) to see what has changed since,
 then copy the newer files over. Updates are a straight file copy unless the
 changelog says otherwise for that version.
 
+`/standards-ai:sync` does this for you, and additionally warns about local
+edits a copy would overwrite.
+
 ## Skills
 
 Skills are reusable prompt templates invoked directly from Claude
@@ -173,6 +176,22 @@ ready-to-commit verdict.
 | Skill | Scope |
 |-------|-------|
 | `/standards-ai:preflight` | Staged changes |
+
+### `/standards-ai:sync`
+
+Updates a project's template files from a local checkout of this repository.
+Compares version markers, lists the changelog entries between the two
+versions, and reports what each file copy would change.
+
+Before copying, it checks each file against the version the project
+originally received and quotes any local edit that overwriting would
+discard — the one thing a straight `cp` loses silently. `project.md` and
+`review-violations.md` are never touched.
+
+| Skill | Notes |
+|-------|-------|
+| `/standards-ai:sync <path>` | Path to a standards.ai checkout |
+| `/standards-ai:sync` | Asks for the path |
 
 ### `/standards-ai:commit`
 
@@ -270,6 +289,8 @@ templates/
             SKILL.md           # Pre-commit checklist skill
           commit/
             SKILL.md           # Atomic commit splitting and message writing
+          sync/
+            SKILL.md           # Template update skill
           audit-violations/
             SKILL.md           # Violations register maintenance skill
         agents/
