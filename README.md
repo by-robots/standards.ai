@@ -63,6 +63,19 @@ wins — use the **Project Overrides** section to record deliberate departures.
 Run `/standards-ai:about` to populate the About and Project Context sections
 automatically (see [Skills](#skills)), or fill them in manually.
 
+### Versions
+
+`CLAUDE.md` and `conventions.md` each carry a version marker on their first
+line, so you can tell which release a project last received:
+
+```sh
+head -n 1 /path/to/your/project/CLAUDE.md
+```
+
+Compare it against [CHANGELOG.md](CHANGELOG.md) to see what has changed since,
+then copy the newer files over. Updates are a straight file copy unless the
+changelog says otherwise for that version.
+
 ## Skills
 
 Skills are reusable prompt templates invoked directly from Claude
@@ -220,6 +233,7 @@ templates/
           system-architect.md  # Sub-agent for architectural guidance and design
           code-reviewer.md     # Sub-agent for correctness and security review
 CLAUDE.md                      # Rules for working on this repo itself (not a template)
+CHANGELOG.md                   # Template version history and migration notes
 ```
 
 ## Contributing

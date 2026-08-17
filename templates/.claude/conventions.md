@@ -1,3 +1,5 @@
+<!-- standards-ai template v1.1.0 — https://github.com/by-robots/standards.ai -->
+
 ## Communication Style
 
 - Use UK English (e.g. colour, organisation, authorise).

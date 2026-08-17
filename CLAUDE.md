@@ -46,6 +46,16 @@ When asked to add, remove, or modify rules:
 When making changes that affect repository structure, features, or usage,
 check whether `README.md` needs updating before closing the task.
 
+### Versioning the Templates
+
+`templates/CLAUDE.md` and `templates/.claude/conventions.md` carry a version
+marker on their first line. When changing either file, add an entry under
+`## [Unreleased]` in `CHANGELOG.md`. When cutting a release, bump the markers,
+`plugin.json`, and the changelog heading together in one commit.
+
+Bump major only when a change cannot be applied by copying files over the old
+ones. Any such release must include a "Migrating from" note in the changelog.
+
 ### What Not to Do
 
 - Do not add rules that are obvious or already implied by the AI's default
