@@ -25,7 +25,7 @@ The rules template covers:
 - **Communication** — tone, language (UK English), and how the AI should
   propose changes.
 - **Coding conventions** — general principles, testing, database,
-  performance, logging, accessibility, and dependency management.
+  logging, accessibility, and dependency management.
 - **Language conventions** — style rules for Ruby, TypeScript/JavaScript,
   CSS, and mark-up.
 - **Git workflow** — Conventional Commits, atomic changes, no committing
@@ -33,10 +33,10 @@ The rules template covers:
 - **Project context** — a placeholder section you fill in per repository
   (stack, versions, architecture, deployment).
 
-Sections that do not apply to your project — the database rules on a project
-with no database, the Ruby rules on a TypeScript project — say so at the top
-and are skipped. You do not need to delete them, and leaving them in place
-keeps future updates a straight file copy.
+Rules that do not apply to your project cost you nothing. The Ruby rules load
+only when Claude touches a `.rb` file, the mark-up rules only for templates,
+and so on — see [How the rules load](#how-the-rules-load). You never need to
+delete a file, which keeps updates a straight copy.
 
 ## Usage
 
@@ -45,7 +45,7 @@ standards.ai has two halves, and they install differently:
 | Half | What it is | How it gets into a project |
 |------|------------|----------------------------|
 | **Plugin** | The skills and agents | Installed once per machine. Never copied. |
-| **Rules** | `CLAUDE.md` and `.claude/conventions.md` | Per project, by copy or by import |
+| **Rules** | `CLAUDE.md` and `.claude/rules/` | Per project, by copy or by symlink |
 
 Clone this repository somewhere permanent first — the examples below assume
 `~/Code/standards.ai`:
@@ -76,58 +76,52 @@ and worktrees. Skills load namespaced, as `/standards-ai:review` rather than
 
 ### 2. Add the rules to a project
 
-The rules are project files, so they need to reach each project. Pick one of
-two approaches — copy for repositories you share, import for your own.
+The rules live in `.claude/rules/`, so they need to reach each project. Pick
+one of two approaches — copy for repositories you share, symlink for your own.
+
+Both need the entry point, which imports `project.md` and states the
+precedence rule:
+
+```sh
+cp ~/Code/standards.ai/templates/CLAUDE.md /path/to/your/project/CLAUDE.md
+cp ~/Code/standards.ai/templates/.claude/project.md /path/to/your/project/.claude/project.md
+```
 
 #### Option A: copy (default)
 
 Real files, committed to the project, working for anyone who clones it:
 
 ```sh
-cp ~/Code/standards.ai/templates/CLAUDE.md /path/to/your/project/CLAUDE.md
-mkdir -p /path/to/your/project/.claude
-cp -R ~/Code/standards.ai/templates/.claude/. /path/to/your/project/.claude/
+mkdir -p /path/to/your/project/.claude/rules
+cp -R ~/Code/standards.ai/templates/.claude/rules/. /path/to/your/project/.claude/rules/
 ```
 
-The trailing `/.` matters. Most projects already have a `.claude` directory —
-`cp -R templates/.claude <dest>/.claude/` would nest a second one inside it.
+The trailing `/.` matters — `cp -R templates/.claude/rules <dest>/.claude/rules/`
+would nest a second `rules` directory inside the first.
 
-If you installed the plugin in step 1, delete the copied
-`.claude/skills/standards-ai/` afterwards; keeping both loads the skills
-twice.
+#### Option B: symlink (auto-updating)
 
-#### Option B: import (auto-updating)
+Link the directory instead of copying it. `.claude/rules/` is discovered
+recursively and follows symlinks, so a subdirectory works:
 
-Instead of copying the two shared files, point at them. Put this at the top of
-the project's `CLAUDE.md`, above its own content:
-
-```
-@~/Code/standards.ai/templates/CLAUDE.md
-@~/Code/standards.ai/templates/.claude/conventions.md
+```sh
+mkdir -p /path/to/your/project/.claude/rules
+ln -s ~/Code/standards.ai/templates/.claude/rules /path/to/your/project/.claude/rules/standards
 ```
 
-Then `git pull` in `~/Code/standards.ai` updates every project at once. You
-still create `.claude/project.md` per project — that is the file holding
-content specific to the project.
-
-Three things to know before choosing this:
-
-- **Anchor to `~`, not `../`.** Relative imports resolve against the file
-  containing them, so `../standards.ai` means something different for every
-  project depending on how deeply it is nested. `~/` is depth-independent.
-- **It prompts once per project.** An import resolving outside the working
-  directory triggers an approval dialog listing the files. Accept it and the
-  imports load from then on. Decline it and they stay disabled permanently
-  for that project, without asking again.
-- **The path only resolves on your machine.** For a repository anyone else
-  clones — a teammate, CI, Claude Code on the web — the import is broken. In
-  a shared project put the two lines in a gitignored `CLAUDE.local.md`
-  instead of `CLAUDE.md`.
+Then `git pull` in `~/Code/standards.ai` updates every linked project at once,
+with no per-project step. Add `.claude/rules/standards` to the project's
+`.gitignore` — the link target only resolves on your machine, so committing it
+breaks the checkout for anyone else, for CI, and for Claude Code on the web.
 
 The trade is deliberate. Copying makes each update a visible, diffable event
-you choose to accept; importing keeps every project current at the cost of
-rules changing under you the moment you commit to standards.ai. Mixing the
-two is fine — import in your own projects, copy in the shared ones.
+you choose to accept; symlinking keeps every project current at the cost of
+rules changing under you the moment you commit to standards.ai. Mixing the two
+is fine — symlink your own projects, copy the shared ones.
+
+Either way, if you installed the plugin in step 1 do not also copy
+`.claude/skills/standards-ai/` into the project. Both at once loads the skills
+twice.
 
 ### 3. Fill in the project file
 
@@ -152,7 +146,7 @@ A restart is required for the update to take effect. Updates are delivered
 only when the `version` in the plugin manifest changes, so pulling a commit
 that does not bump the version changes nothing.
 
-**Imported rules (Option B).** Nothing to do. The `git pull` above is the
+**Symlinked rules (Option B).** Nothing to do. The `git pull` above is the
 update; the next session picks it up.
 
 **Copied rules (Option A).** Pull, then run `/standards-ai:sync` in the target
@@ -164,37 +158,63 @@ project:
 
 It compares version markers, lists the changelog entries between the two
 versions, and quotes any local edit the copy would overwrite before it copies
-anything. To do it by hand, re-run the `cp` commands from Option A and check
+anything. To do it by hand, re-run the `cp` command from Option A and check
 [CHANGELOG.md](CHANGELOG.md) for a migration note first.
 
-### The three rule files
+### How the rules load
 
-The rules are split into three files by how often you edit them:
+`CLAUDE.md` is a thin entry point: it imports `.claude/project.md` and states
+that project rules win over shared ones. Everything else lives in
+`.claude/rules/`, one topic per file.
 
 | File | Contents | On update |
 |------|----------|-----------|
-| `CLAUDE.md` | Shared rules — security, communication, coding conventions, git | Overwritten |
-| `.claude/conventions.md` | Shared style rules — UK English, Conventional Commits, Ruby, TypeScript, CSS, mark-up | Overwritten |
+| `CLAUDE.md` | Entry point and precedence rule | Overwritten |
+| `.claude/rules/*.md` | The shared rules, one topic per file | Overwritten |
 | `.claude/project.md` | **About This Project**, **Project Context**, **Project Overrides** | Never overwritten |
 
-`CLAUDE.md` imports the other two at startup. Keeping everything you write by
-hand in `project.md` means you can copy a newer `CLAUDE.md` and
-`conventions.md` over the old ones without losing project-specific content.
+Files are numbered so the most critical are read first. The first eight load
+every session; the rest carry `paths:` frontmatter and load only when Claude
+touches a file they match:
 
-Where a rule in `project.md` conflicts with the shared rules, the project rule
-wins — use the **Project Overrides** section to record deliberate departures.
+| Always loaded | Scoped to |
+|---|---|
+| `00-security` `01-communication` `02-claude-code` `03-general` `04-testing` `05-logging` `06-documentation` `07-git` | — |
+| `20-ruby` | `**/*.rb` |
+| `21-typescript` | `**/*.{ts,tsx,js,jsx}` and friends |
+| `22-css` | `**/*.{css,scss,sass,less}` |
+| `23-markup` `24-accessibility` | HTML and template files |
+| `25-database` | migrations, schema, models, queries |
+| `26-dependencies` | `package.json`, `Gemfile`, and other manifests |
+
+A TypeScript project never loads the Ruby rules; a CLI never loads the mark-up
+rules. Two consequences worth knowing:
+
+- **The globs assume a conventional layout.** If this project keeps models or
+  migrations somewhere unusual, edit the `paths:` block — a pattern matching
+  nothing fails silently rather than erroring. Each scoped file carries a
+  comment saying so.
+- **Scoped rules are not re-injected after `/compact`.** They reload the next
+  time a matching file is touched. This is why security, communication and the
+  general conventions are never scoped: anything that must hold at all times
+  stays unconditional.
+
+Keeping everything you write by hand in `project.md` means the rule files can
+be replaced wholesale without losing project-specific content. Where a rule in
+`project.md` conflicts with a shared rule, the project rule wins — use the
+**Project Overrides** section to record deliberate departures.
 
 ### Versions
 
-`CLAUDE.md` and `conventions.md` each carry a version marker on their first
-line, so you can tell which release a project last received:
+`CLAUDE.md` carries a version marker on its first line, so you can tell which
+release a project last received:
 
 ```sh
 head -n 1 /path/to/your/project/CLAUDE.md
 ```
 
 Compare it against [CHANGELOG.md](CHANGELOG.md) to see what has changed since.
-Projects using the import (Option B) always read the current version, so the
+Projects using the symlink (Option B) always read the current version, so the
 marker only matters for copied rules.
 
 The plugin is versioned separately in its own manifest. `/plugin list` shows
@@ -212,7 +232,7 @@ Three things review code, and they do not overlap:
 
 | | Checks | Runs tooling | Cost |
 |---|---|---|---|
-| `/standards-ai:review` | `CLAUDE.md` rule compliance | No | Low |
+| `/standards-ai:review` | `.claude/rules/` compliance | No | Low |
 | `/standards-ai:preflight` | Linter, scoped tests, diff hygiene, docs, atomicity | Yes | Low |
 | `code-reviewer` agent | Correctness bugs and security issues, plus rules | No | High |
 
@@ -250,12 +270,12 @@ project isn't self-describing from its files alone.
 
 ### `/standards-ai:review`
 
-Evaluates code against the rules defined in your project's `CLAUDE.md` and
-`.claude/conventions.md`. Files are reviewed one at a time against only the
-rule sections that can apply to that file type — a migration is not checked
-against the mark-up rules — and violations are reported with the offending
-code quoted alongside the rule being broken. Sections with no violations are
-omitted, and the skill asks before reading more than 20 files.
+Evaluates code against the rules in `.claude/rules/`. Files are reviewed one
+at a time against only the rules whose `paths:` frontmatter matches them — a
+migration is not checked against the mark-up rules — and violations are
+reported with the offending code quoted alongside the rule being broken. Rule
+files with no violations are omitted, and the skill asks before reading more
+than 20 files.
 
 Intended as a pre-commit check: run it against your staged changes before
 pushing to catch rule violations early. It can also be pointed at a specific
@@ -372,9 +392,13 @@ a target project.
 ### `code-reviewer`
 
 Reviews a diff, branch, or pull request for correctness bugs, security
-issues, and violations of the project's `CLAUDE.md` rules — in that order of
-severity. Reports findings with the offending code quoted and a concrete
-failure scenario; does not modify code.
+issues, and violations of the project's rules — in that order of severity.
+Reports findings with the offending code quoted and a concrete failure
+scenario; does not modify code.
+
+Unlike the review skill, it reads every rule file in full rather than relying
+on path scoping. It reviews files it did not otherwise open, so scoped rules
+would never have loaded themselves.
 
 Both agents inherit the session's model rather than pinning one, so they stay
 current as models change. If you routinely work on a smaller model, add a
@@ -391,11 +415,26 @@ is ambiguous between the two, the agent asks rather than assuming — see
 
 ```
 templates/
-  CLAUDE.md                    # Shared rules template for Claude Code
+  CLAUDE.md                    # Thin entry point: imports project.md, sets precedence
   .claude/
     project.md                 # Project-specific context (About, Context, Overrides)
-    conventions.md             # Shared style and language conventions
     review-violations.md       # Accepted violations suppressed by the review skill
+    rules/                     # The shared rules, one topic per file
+      00-security.md           # Always loaded
+      01-communication.md
+      02-claude-code.md
+      03-general.md
+      04-testing.md
+      05-logging.md
+      06-documentation.md
+      07-git.md
+      20-ruby.md               # Path-scoped via paths: frontmatter
+      21-typescript.md
+      22-css.md
+      23-markup.md
+      24-accessibility.md
+      25-database.md
+      26-dependencies.md
     skills/
       standards-ai/            # Skills-directory plugin (loads as standards-ai)
         .claude-plugin/
