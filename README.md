@@ -42,8 +42,12 @@ Copy the template files into your project:
 
 ```sh
 cp templates/CLAUDE.md /path/to/your/project/CLAUDE.md
-cp -r templates/.claude /path/to/your/project/.claude/
+mkdir -p /path/to/your/project/.claude
+cp -R templates/.claude/. /path/to/your/project/.claude/
 ```
+
+The trailing `/.` matters. Most projects already have a `.claude` directory —
+`cp -R templates/.claude <dest>/.claude/` would nest a second one inside it.
 
 The templates are split into three files by how often you edit them:
 

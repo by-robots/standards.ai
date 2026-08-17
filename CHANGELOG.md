@@ -25,6 +25,14 @@ versioning follows [Semantic Versioning](https://semver.org/):
 - Claude Code rules against creating unrequested files and against starting
   long-running processes without asking.
 
+### Fixed
+
+- The documented install command nested a second `.claude` directory inside
+  an existing one. Corrected to `cp -R templates/.claude/. <dest>/.claude/`.
+- The README claimed the language-specific rules lived in `CLAUDE.md` and
+  told users to delete the sections they did not need, contradicting the
+  copy-over update model.
+
 ### Changed
 
 - "Follow existing patterns in the codebase" and "Follow the established
