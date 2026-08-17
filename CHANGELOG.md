@@ -32,6 +32,10 @@ versioning follows [Semantic Versioning](https://semver.org/):
   first and match it, or say why you deviated. Neither original could be
   checked by reading the output.
 
+- Testing rules moved out of "Language & Framework" into their own
+  **Testing** section. No wording changed; six of that section's rules were
+  about tests and being buried there weakened them.
+
 - The rule against removing code now exempts refactor, cleanup and removal
   tasks, where the blanket version guaranteed dead code accumulated and
   every session ended with a manual approval list.

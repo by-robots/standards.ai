@@ -69,15 +69,18 @@ which it overrode.
 - Do not assume your knowledge of a library's API matches the version in use. When uncertain, look up the versioned documentation or read the installed dependency's source or type definitions rather than working from prior knowledge.
 - Respect the project's linter and formatter configuration. Do not
   disable rules inline without explicit approval.
+- In web applications, keep business logic out of controllers, handlers, and other entry points. Extract it into service objects, plain classes, or modules.
+- Scope data access through the current user or equivalent context rather than querying top-level models directly.
+- Prefer explicit null/nil checks over implicit truthiness. Do not rely on falsy coercion when the value could be `0`, `""`, or an empty collection.
+
+### Testing
+
 - Before writing any code that changes business logic, state which existing tests are affected and whether new tests are needed.
 - New code for business logic must include tests. Use the project's existing
   test framework and follow its conventions.
 - When touching business logic that has no tests, propose backfilling tests. If that is out of scope, say so explicitly.
 - When asked to fix a bug, first write a failing test that reproduces it, then implement the fix. If the bug cannot be reproduced with a test — for example, in build scripts, infrastructure configuration, or database migrations — confirm with the user before proceeding without one.
 - When identifying what tests are needed, address all relevant layers: unit tests for isolated logic, integration tests for component interactions, and — in web applications — endpoint-level tests for HTTP routes and CRUD operations.
-- In web applications, keep business logic out of controllers, handlers, and other entry points. Extract it into service objects, plain classes, or modules.
-- Scope data access through the current user or equivalent context rather than querying top-level models directly.
-- Prefer explicit null/nil checks over implicit truthiness. Do not rely on falsy coercion when the value could be `0`, `""`, or an empty collection.
 
 ### Database
 
