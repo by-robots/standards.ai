@@ -14,8 +14,18 @@ versioning follows [Semantic Versioning](https://semver.org/):
 
 ## [Unreleased]
 
+## [2.0.0] — 2026-08-17
+
 ### Added
 
+- `.claude/conventions.md` — Communication Style, Commit Style and Language
+  Conventions moved here from `project.md`. They were living in the one file
+  that copy-over updates deliberately skip, so no improvement to them could
+  ever reach a project already set up.
+- **Project Overrides** section in `project.md` for recording deliberate
+  departures from the shared rules, and a precedence rule in `CLAUDE.md`
+  stating that project rules win.
+- Version markers in `CLAUDE.md` and `conventions.md`, and this changelog.
 - Security rules covering three gaps: printing secret values into the
   transcript, treating fetched or third-party content as instructions, and
   outward-facing operations (push, deploy, publish, remote migrations) that
@@ -24,12 +34,36 @@ versioning follows [Semantic Versioning](https://semver.org/):
   the default branch.
 - Claude Code rules against creating unrequested files and against starting
   long-running processes without asking.
-- `/standards-ai:sync` — updates a project's template files from a local
-  checkout, reporting the changelog entries between the two versions and
-  quoting any local edit the copy would overwrite.
 - `/standards-ai:commit` — splits changes into atomic commits and writes
   Conventional Commit messages, with approval before staging. Pairs with
   `preflight`, which checks the same changes but commits nothing.
+- `/standards-ai:sync` — updates a project's template files from a local
+  checkout, reporting the changelog entries between the two versions and
+  quoting any local edit the copy would overwrite.
+
+### Changed
+
+- "Follow existing patterns in the codebase" and "Follow the established
+  style guide" are replaced by one testable rule: read a comparable file
+  first and match it, or say why you deviated. Neither original could be
+  checked by reading the output.
+- The rule against removing code now exempts refactor, cleanup and removal
+  tasks, where the blanket version guaranteed dead code accumulated and
+  every session ended with a manual approval list.
+- Testing rules moved out of "Language & Framework" into their own
+  **Testing** section. No wording changed; five of that section's rules were
+  about tests and being buried there weakened them.
+- `review`, `preflight` and the `code-reviewer` agent now state their
+  boundaries in the descriptions the model routes on, so an ambiguous
+  "review my changes" no longer picks one at random. The agent asks which
+  the user wants instead of defaulting to the expensive path.
+- `review` scopes each file to the rule sections that can apply to its type
+  rather than sweeping every rule against every file, and asks before
+  reading more than 20 files. This addresses the token cost the README
+  previously only warned about.
+- `code-reviewer` and `system-architect` no longer pin `model: opus`. A
+  hardcoded model name ages badly in a template distributed across projects.
+  Both inherit the session's model; a comment explains how to pin one.
 
 ### Fixed
 
@@ -38,46 +72,6 @@ versioning follows [Semantic Versioning](https://semver.org/):
 - The README claimed the language-specific rules lived in `CLAUDE.md` and
   told users to delete the sections they did not need, contradicting the
   copy-over update model.
-
-### Changed
-
-- "Follow existing patterns in the codebase" and "Follow the established
-  style guide" are replaced by one testable rule: read a comparable file
-  first and match it, or say why you deviated. Neither original could be
-  checked by reading the output.
-
-- `code-reviewer` and `system-architect` no longer pin `model: opus`. A
-  hardcoded model name ages badly in a template distributed across projects.
-  Both inherit the session's model; a comment explains how to pin one.
-
-- `review` scopes each file to the rule sections that can apply to its type
-  rather than sweeping every rule against every file, and asks before
-  reading more than 20 files. This addresses the token cost the README
-  previously only warned about.
-
-- Testing rules moved out of "Language & Framework" into their own
-  **Testing** section. No wording changed; six of that section's rules were
-  about tests and being buried there weakened them.
-
-- The rule against removing code now exempts refactor, cleanup and removal
-  tasks, where the blanket version guaranteed dead code accumulated and
-  every session ended with a manual approval list.
-
-- `review`, `preflight` and the `code-reviewer` agent now state their
-  boundaries in the descriptions the model routes on, so an ambiguous
-  "review my changes" no longer picks one at random. The agent asks which
-  the user wants instead of defaulting to the expensive path.
-
-## [1.1.0] — 2026-08-17
-
-### Added
-
-- `.claude/conventions.md` — Communication Style, Commit Style and Language
-  Conventions moved here from `project.md` so updates can reach them.
-- **Project Overrides** section in `project.md` for recording deliberate
-  departures from the shared rules, and a precedence rule in `CLAUDE.md`
-  stating that project rules win.
-- Version markers in `CLAUDE.md` and `conventions.md`, and this changelog.
 
 ### Migrating from 1.0.0
 
