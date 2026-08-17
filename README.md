@@ -1,7 +1,8 @@
 # standards.ai
 
-Opinionated configuration templates for Claude Code. Drop them into a project
-to get consistent, security-conscious AI assistance without repeating yourself.
+Opinionated configuration for Claude Code — a rules template plus a plugin of
+skills and agents. Install the plugin once, add the rules to a project, and get
+consistent, security-conscious AI assistance without repeating yourself.
 
 The rules are my own preferences — go ahead and customise them to your needs.
 
@@ -15,9 +16,9 @@ project-level instruction files. Other tools have not been tested.
 > reading more than 20 files, but a wide target (`/standards-ai:review .`) or
 > a run of the `code-reviewer` agent on a large branch can still be expensive.
 
-## What's in the templates
+## What's in the rules
 
-Each template covers:
+The rules template covers:
 
 - **Security** — hard limits on secrets, destructive and outward-facing
   operations, injection risks, and treating fetched content as instructions.
@@ -39,18 +40,136 @@ keeps future updates a straight file copy.
 
 ## Usage
 
-Copy the template files into your project:
+standards.ai has two halves, and they install differently:
+
+| Half | What it is | How it gets into a project |
+|------|------------|----------------------------|
+| **Plugin** | The skills and agents | Installed once per machine. Never copied. |
+| **Rules** | `CLAUDE.md` and `.claude/conventions.md` | Per project, by copy or by import |
+
+Clone this repository somewhere permanent first — the examples below assume
+`~/Code/standards.ai`:
 
 ```sh
-cp templates/CLAUDE.md /path/to/your/project/CLAUDE.md
+git clone git@github.com:by-robots/standards.ai.git ~/Code/standards.ai
+```
+
+### 1. Install the plugin
+
+This repository is a plugin marketplace. Install the skills and agents once
+and they are available in every project, with nothing copied anywhere. From
+any Claude Code session:
+
+```
+/plugin marketplace add ~/Code/standards.ai
+/plugin install standards-ai@standards-ai
+```
+
+If the install summary says `Run /reload-plugins to activate.`, run that. The
+same works from the shell with `claude plugin marketplace add` and
+`claude plugin install`.
+
+Marketplace state is stored once per user in
+`~/.claude/plugins/known_marketplaces.json`, so this survives across projects
+and worktrees. Skills load namespaced, as `/standards-ai:review` rather than
+`/review`, so they cannot collide with Claude Code's built-in skills.
+
+### 2. Add the rules to a project
+
+The rules are project files, so they need to reach each project. Pick one of
+two approaches — copy for repositories you share, import for your own.
+
+#### Option A: copy (default)
+
+Real files, committed to the project, working for anyone who clones it:
+
+```sh
+cp ~/Code/standards.ai/templates/CLAUDE.md /path/to/your/project/CLAUDE.md
 mkdir -p /path/to/your/project/.claude
-cp -R templates/.claude/. /path/to/your/project/.claude/
+cp -R ~/Code/standards.ai/templates/.claude/. /path/to/your/project/.claude/
 ```
 
 The trailing `/.` matters. Most projects already have a `.claude` directory —
 `cp -R templates/.claude <dest>/.claude/` would nest a second one inside it.
 
-The templates are split into three files by how often you edit them:
+If you installed the plugin in step 1, delete the copied
+`.claude/skills/standards-ai/` afterwards; keeping both loads the skills
+twice.
+
+#### Option B: import (auto-updating)
+
+Instead of copying the two shared files, point at them. Put this at the top of
+the project's `CLAUDE.md`, above its own content:
+
+```
+@~/Code/standards.ai/templates/CLAUDE.md
+@~/Code/standards.ai/templates/.claude/conventions.md
+```
+
+Then `git pull` in `~/Code/standards.ai` updates every project at once. You
+still create `.claude/project.md` per project — that is the file holding
+content specific to the project.
+
+Three things to know before choosing this:
+
+- **Anchor to `~`, not `../`.** Relative imports resolve against the file
+  containing them, so `../standards.ai` means something different for every
+  project depending on how deeply it is nested. `~/` is depth-independent.
+- **It prompts once per project.** An import resolving outside the working
+  directory triggers an approval dialog listing the files. Accept it and the
+  imports load from then on. Decline it and they stay disabled permanently
+  for that project, without asking again.
+- **The path only resolves on your machine.** For a repository anyone else
+  clones — a teammate, CI, Claude Code on the web — the import is broken. In
+  a shared project put the two lines in a gitignored `CLAUDE.local.md`
+  instead of `CLAUDE.md`.
+
+The trade is deliberate. Copying makes each update a visible, diffable event
+you choose to accept; importing keeps every project current at the cost of
+rules changing under you the moment you commit to standards.ai. Mixing the
+two is fine — import in your own projects, copy in the shared ones.
+
+### 3. Fill in the project file
+
+Whichever option you chose, run `/standards-ai:about` to populate the
+**About This Project** and **Project Context** sections of
+`.claude/project.md`, or fill them in by hand.
+
+### Updating
+
+**The plugin.** Pull, refresh the marketplace, update the plugin:
+
+```sh
+git -C ~/Code/standards.ai pull
+```
+
+```
+/plugin marketplace update standards-ai
+/plugin update standards-ai@standards-ai
+```
+
+A restart is required for the update to take effect. Updates are delivered
+only when the `version` in the plugin manifest changes, so pulling a commit
+that does not bump the version changes nothing.
+
+**Imported rules (Option B).** Nothing to do. The `git pull` above is the
+update; the next session picks it up.
+
+**Copied rules (Option A).** Pull, then run `/standards-ai:sync` in the target
+project:
+
+```
+/standards-ai:sync ~/Code/standards.ai
+```
+
+It compares version markers, lists the changelog entries between the two
+versions, and quotes any local edit the copy would overwrite before it copies
+anything. To do it by hand, re-run the `cp` commands from Option A and check
+[CHANGELOG.md](CHANGELOG.md) for a migration note first.
+
+### The three rule files
+
+The rules are split into three files by how often you edit them:
 
 | File | Contents | On update |
 |------|----------|-----------|
@@ -65,9 +184,6 @@ hand in `project.md` means you can copy a newer `CLAUDE.md` and
 Where a rule in `project.md` conflicts with the shared rules, the project rule
 wins — use the **Project Overrides** section to record deliberate departures.
 
-Run `/standards-ai:about` to populate the About and Project Context sections
-automatically (see [Skills](#skills)), or fill them in manually.
-
 ### Versions
 
 `CLAUDE.md` and `conventions.md` each carry a version marker on their first
@@ -77,12 +193,12 @@ line, so you can tell which release a project last received:
 head -n 1 /path/to/your/project/CLAUDE.md
 ```
 
-Compare it against [CHANGELOG.md](CHANGELOG.md) to see what has changed since,
-then copy the newer files over. Updates are a straight file copy unless the
-changelog says otherwise for that version.
+Compare it against [CHANGELOG.md](CHANGELOG.md) to see what has changed since.
+Projects using the import (Option B) always read the current version, so the
+marker only matters for copied rules.
 
-`/standards-ai:sync` does this for you, and additionally warns about local
-edits a copy would overwrite.
+The plugin is versioned separately in its own manifest. `/plugin list` shows
+the installed version.
 
 ## Skills
 
@@ -104,23 +220,25 @@ Three things review code, and they do not overlap:
 agent for changes where a bug would be expensive — auth, payments, data
 migrations, anything security-sensitive.
 
-The skills (and agents) are packaged as a [skills-directory
-plugin](https://code.claude.com/docs/en/plugins-reference#skills-directory-plugins)
-named `standards-ai`. Nothing changes about installation — you still just copy
-the files — but the skills load under a namespace (`/standards-ai:review`
-rather than `/review`), which prevents them colliding with Claude Code's
-built-in skills of the same name. Three things to be aware of:
+The skills and agents are packaged as a plugin named `standards-ai`, installed
+from this repository as a marketplace — see [Install the
+plugin](#1-install-the-plugin). Skills load under a namespace
+(`/standards-ai:review` rather than `/review`), so they cannot collide with
+Claude Code's built-in skills of the same name.
 
-- The plugin loads after you accept the workspace trust dialog.
-- It loads from the `.claude/skills/` of the directory where Claude Code is
-  launched. If you launch from a subdirectory, run `/reload-plugins`.
-- Skills-directory plugins require a recent version of Claude Code.
+The plugin can also be loaded without installing it, by copying the tree to a
+project's `.claude/skills/` as a [skills-directory
+plugin](https://code.claude.com/docs/en/plugins-reference#skills-directory-plugins).
+That is the older approach and it needs no marketplace, but it copies the
+skills into every project and loads only from the directory Claude Code is
+launched in — run `/reload-plugins` if you launch from a subdirectory. Use one
+approach or the other; both at once loads the skills twice.
 
 ### `/standards-ai:about`
 
 Populates the **About This Project** and **Project Context** sections of your
 rules file from project signals — README, package manifests, version files, and
-deployment config. Run it once after copying the template into a new project.
+deployment config. Run it once after adding the rules to a new project.
 
 Presents a draft for confirmation before writing anything. Pass a hint if the
 project isn't self-describing from its files alone.
@@ -208,9 +326,13 @@ Presents all proposed changes for confirmation before writing anything.
 
 ### `/standards-ai:sync`
 
-Updates a project's template files from a local checkout of this repository.
-Compares version markers, lists the changelog entries between the two
-versions, and reports what each file copy would change.
+Updates a project's copied rule files from a local checkout of this
+repository. Compares version markers, lists the changelog entries between the
+two versions, and reports what each file copy would change.
+
+Only relevant to projects that copied the rules (Option A). Projects using the
+import always read the current version, and the plugin updates through
+`/plugin update`.
 
 Before copying, it checks each file against the version the project
 originally received and quotes any local edit that overwriting would

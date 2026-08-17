@@ -22,6 +22,13 @@ versioning follows [Semantic Versioning](https://semver.org/):
   `git pull` plus `/plugin marketplace update`.
 - An `author` field in `plugin.json`, clearing the only validation warning.
 
+### Changed
+
+- The README now documents two ways to get the rules into a project: copying
+  them, or importing them from a checkout with `@~/Code/standards.ai/...` so
+  a `git pull` updates every project at once. Each has install and update
+  instructions, and the trade-off between them is stated.
+
 ## [2.0.0] — 2026-08-17
 
 ### Added
