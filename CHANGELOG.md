@@ -40,6 +40,11 @@ versioning follows [Semantic Versioning](https://semver.org/):
   first and match it, or say why you deviated. Neither original could be
   checked by reading the output.
 
+- `review` scopes each file to the rule sections that can apply to its type
+  rather than sweeping every rule against every file, and asks before
+  reading more than 20 files. This addresses the token cost the README
+  previously only warned about.
+
 - Testing rules moved out of "Language & Framework" into their own
   **Testing** section. No wording changed; six of that section's rules were
   about tests and being buried there weakened them.

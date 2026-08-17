@@ -10,9 +10,10 @@ format is broadly compatible with other AI coding tools that support
 project-level instruction files. Other tools have not been tested.
 
 > [!WARNING]
-> Use caution when running skills. Some will use a large amount of tokens
-> if used without restriction (e.g. `/standards-ai:review .`) and could easily
-> exhaust your usage limits or incur costs.
+> Skills and agents read files and can consume a large number of tokens.
+> `/standards-ai:review` now scopes its checks by file type and asks before
+> reading more than 20 files, but a wide target (`/standards-ai:review .`) or
+> a run of the `code-reviewer` agent on a large branch can still be expensive.
 
 ## What's in the templates
 
@@ -128,10 +129,12 @@ project isn't self-describing from its files alone.
 
 ### `/standards-ai:review`
 
-Evaluates code against the rules defined in your project's `CLAUDE.md`. Files
-are reviewed one at a time, each rule section is checked in turn, and
-violations are reported with the offending code quoted alongside the rule
-being broken. Sections with no violations are omitted.
+Evaluates code against the rules defined in your project's `CLAUDE.md` and
+`.claude/conventions.md`. Files are reviewed one at a time against only the
+rule sections that can apply to that file type — a migration is not checked
+against the mark-up rules — and violations are reported with the offending
+code quoted alongside the rule being broken. Sections with no violations are
+omitted, and the skill asks before reading more than 20 files.
 
 Intended as a pre-commit check: run it against your staged changes before
 pushing to catch rule violations early. It can also be pointed at a specific
