@@ -1,8 +1,8 @@
 # Changelog
 
 Notable changes to the templates. Each released version is stamped in the
-first line of `templates/CLAUDE.md` and `templates/.claude/conventions.md`, so
-you can tell which version a project last received.
+first line of `templates/CLAUDE.md`, so you can tell which version a project
+last received.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
 versioning follows [Semantic Versioning](https://semver.org/):
@@ -14,33 +14,33 @@ versioning follows [Semantic Versioning](https://semver.org/):
 
 ## [Unreleased]
 
-### Added
-
-- `.claude-plugin/marketplace.json` at the repository root, making this repo a
-  plugin marketplace. The skills and agents can now be installed once at user
-  scope instead of being copied into each project, and updated with
-  `git pull` plus `/plugin marketplace update`.
-- An `author` field in `plugin.json`, clearing the only validation warning.
-
-### Changed
-
-- The README now documents two ways to get the rules into a project: copying
-  them, or importing them from a checkout with `@~/Code/standards.ai/...` so
-  a `git pull` updates every project at once. Each has install and update
-  instructions, and the trade-off between them is stated.
-
 ## [2.0.0] — 2026-08-17
 
 ### Added
 
-- `.claude/conventions.md` — Communication Style, Commit Style and Language
-  Conventions moved here from `project.md`. They were living in the one file
+- `.claude-plugin/marketplace.json` at the repository root, making this repo a
+  plugin marketplace. The skills and agents install once at user scope instead
+  of being copied into each project, and update with `git pull` plus
+  `/plugin marketplace update`.
+- `.claude/rules/` — the rules are now fifteen topic files instead of one
+  `CLAUDE.md`. Eight load every session; seven carry `paths:` frontmatter and
+  load only when Claude touches a matching file, so a TypeScript project no
+  longer pays for the Ruby, database, CSS and mark-up rules on every turn.
+  Files are numbered to fix the read order, most critical first. Security,
+  communication and the general conventions are deliberately unscoped:
+  path-scoped rules are not re-injected after `/compact`.
+- Rules previously in `project.md` — Communication Style, Commit Style and
+  Language Conventions — are now rule files. They were living in the one file
   that copy-over updates deliberately skip, so no improvement to them could
   ever reach a project already set up.
 - **Project Overrides** section in `project.md` for recording deliberate
   departures from the shared rules, and a precedence rule in `CLAUDE.md`
   stating that project rules win.
-- Version markers in `CLAUDE.md` and `conventions.md`, and this changelog.
+- A version marker on the first line of `CLAUDE.md`, an `author` field in
+  `plugin.json`, and this changelog.
+- Two documented ways to get the rules into a project: copy `.claude/rules/`,
+  or symlink it to a checkout so `git pull` updates every project at once.
+  Each has install and update instructions and the trade-off is stated.
 - Security rules covering three gaps: printing secret values into the
   transcript, treating fetched or third-party content as instructions, and
   outward-facing operations (push, deploy, publish, remote migrations) that
@@ -90,16 +90,26 @@ versioning follows [Semantic Versioning](https://semver.org/):
 
 ### Migrating from 1.0.0
 
-Copying the new templates over the old ones leaves your existing
-`project.md` untouched, which means Communication Style, Commit Style and
-Language Conventions will be defined twice — once in your old `project.md`
-and once in the new `conventions.md`.
+1.0.0 kept every rule in a single `CLAUDE.md`, alongside Communication Style,
+Commit Style and Language Conventions in `project.md`. 2.0.0 replaces
+`CLAUDE.md` with a thin entry point and moves all of it into
+`.claude/rules/`, so the copy leaves duplicates behind in the two files it
+does not overwrite.
 
-The duplication is harmless where the two agree, but it wastes context and
-`project.md` wins where they differ. After copying, remove those three
-sections from `project.md`, moving anything you had customised into the new
-**Project Overrides** section so it survives the next update. This is the
-only manual step; every later update is a straight file copy.
+After copying:
+
+1. Remove the Communication Style, Commit Style and Language Conventions
+   sections from `project.md`. They are now rule files. Move anything you had
+   customised into the new **Project Overrides** section so it survives the
+   next update.
+2. Check the `paths:` frontmatter in `.claude/rules/2*.md` against this
+   project's layout. The globs assume conventional directory names, and a
+   pattern that matches nothing fails silently rather than erroring.
+3. If you install the plugin from the marketplace, delete
+   `.claude/skills/standards-ai/` — keeping both loads the skills twice.
+
+Every later update is a straight file copy, or nothing at all if you symlink
+`.claude/rules/`.
 
 ## [1.0.0] — 2026-08-17
 

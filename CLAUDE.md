@@ -48,9 +48,9 @@ check whether `README.md` needs updating before closing the task.
 
 ### Versioning the Templates
 
-`templates/CLAUDE.md` and `templates/.claude/conventions.md` carry a version
-marker on their first line. When changing either file, add an entry under
-`## [Unreleased]` in `CHANGELOG.md`. When cutting a release, bump the markers,
+`templates/CLAUDE.md` carries a version marker on its first line. When
+changing it or any file under `templates/.claude/rules/`, add an entry under
+`## [Unreleased]` in `CHANGELOG.md`. When cutting a release, bump the marker,
 `plugin.json`, and the changelog heading together in one commit.
 
 Bump major only when a change cannot be applied by copying files over the old
@@ -80,10 +80,10 @@ ones. Any such release must include a "Migrating from" note in the changelog.
 
 ```
 templates/
-  CLAUDE.md            # Shared rules template for Claude Code
+  CLAUDE.md            # Thin entry point: imports project.md, sets precedence
   .claude/
     project.md         # Per-project content (About, Context, Overrides)
-    conventions.md     # Shared style and language conventions
+    rules/             # The shared rules, one topic per numbered file
     skills/
       standards-ai/    # Skills-directory plugin bundling the skills and agents
 .claude-plugin/
@@ -97,12 +97,19 @@ validation. It carries no `version`; the version comes from the plugin's own
 `plugin.json`, so there is one place to bump. Run `claude plugin validate .`
 after changing either manifest.
 
-The template is copied into target projects and adapted per project.
-`CLAUDE.md` and `.claude/conventions.md` are overwritten on update;
-`.claude/project.md` is not, and holds everything the user writes by hand.
-When adding a rule, put it in `conventions.md` if it is language- or
-style-specific, and in `CLAUDE.md` otherwise. Never add shared rules to
+The template is copied or symlinked into target projects. `CLAUDE.md` and
+`.claude/rules/` are overwritten on update; `.claude/project.md` is not, and
+holds everything the user writes by hand. Never add shared rules to
 `project.md` — updates cannot reach them there.
+
+When adding a rule, put it in the existing `rules/` file for its topic. A new
+file needs a number: `0x` for always-loaded, `2x` for path-scoped. Scope a
+rule only when a miss is cheap. Security, communication and general
+conventions stay unscoped, because path-scoped rules are not re-injected
+after `/compact` and would silently stop applying mid-session.
+
+Give every scoped file a comment telling users to adjust its globs — a
+`paths:` pattern that matches nothing fails silently rather than erroring.
 
 ## Git & Workflow
 
