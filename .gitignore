@@ -11,3 +11,7 @@
 .claude/settings.local.json
 .claude/agent-memory-local/
 .claude/projects/
+
+# Eval fixtures and run output, both generated
+evals/.scaffold/
+evals/results/

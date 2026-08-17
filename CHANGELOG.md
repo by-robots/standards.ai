@@ -14,6 +14,15 @@ versioning follows [Semantic Versioning](https://semver.org/):
 
 ## [Unreleased]
 
+### Added
+
+- `evals/` — a first `claude plugin eval` suite of five cases covering the
+  review-routing boundary, the commit and fix-bug workflows, and the two new
+  security rules, plus `scaffold.sh` to build each case's working directory.
+  Not yet run: `plugin eval` is in early access and was not enabled on the
+  account it was written on. See `evals/README.md` for what is verified and
+  what is inferred.
+
 ## [2.0.0] — 2026-08-17
 
 ### Added

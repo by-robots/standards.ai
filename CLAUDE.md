@@ -62,6 +62,16 @@ resolves `git show v<old-version>:templates/...` to work out what a project
 has modified locally; without the tag it falls back to a log search, which is
 slower and can miss.
 
+### Evals
+
+`evals/` holds a `claude plugin eval` suite. When changing a rule or skill
+that a case covers, check whether its `graders/criteria.md` still describes
+the behaviour you want — a criteria file that quotes superseded wording will
+pass against the wrong thing.
+
+The suite has not been run; `plugin eval` is in early access. Do not describe
+a case as passing until someone has actually run it.
+
 ### What Not to Do
 
 - Do not add rules that are obvious or already implied by the AI's default
