@@ -11,7 +11,7 @@ project-level instruction files. Other tools have not been tested.
 
 > [!WARNING]
 > Skills and agents read files and can consume a large number of tokens.
-> `/standards-ai:review` now scopes its checks by file type and asks before
+> `/standards-ai:review` scopes its checks by file type and asks before
 > reading more than 20 files, but a wide target (`/standards-ai:review .`) or
 > a run of the `code-reviewer` agent on a large branch can still be expensive.
 
@@ -19,16 +19,16 @@ project-level instruction files. Other tools have not been tested.
 
 Each template covers:
 
-- **Security** — hard limits on secrets, destructive operations, and
-  injection risks.
+- **Security** — hard limits on secrets, destructive and outward-facing
+  operations, injection risks, and treating fetched content as instructions.
 - **Communication** — tone, language (UK English), and how the AI should
   propose changes.
 - **Coding conventions** — general principles, testing, database,
   performance, logging, accessibility, and dependency management.
 - **Language conventions** — style rules for Ruby, TypeScript/JavaScript,
   CSS, and mark-up.
-- **Git workflow** — Conventional Commits, atomic changes, no AI
-  co-author entries.
+- **Git workflow** — Conventional Commits, atomic changes, no committing
+  unprompted or straight to the default branch, no AI co-author entries.
 - **Project context** — a placeholder section you fill in per repository
   (stack, versions, architecture, deployment).
 
@@ -177,22 +177,6 @@ ready-to-commit verdict.
 |-------|-------|
 | `/standards-ai:preflight` | Staged changes |
 
-### `/standards-ai:sync`
-
-Updates a project's template files from a local checkout of this repository.
-Compares version markers, lists the changelog entries between the two
-versions, and reports what each file copy would change.
-
-Before copying, it checks each file against the version the project
-originally received and quotes any local edit that overwriting would
-discard — the one thing a straight `cp` loses silently. `project.md` and
-`review-violations.md` are never touched.
-
-| Skill | Notes |
-|-------|-------|
-| `/standards-ai:sync <path>` | Path to a standards.ai checkout |
-| `/standards-ai:sync` | Asks for the path |
-
 ### `/standards-ai:commit`
 
 Splits the current changes into atomic commits and writes Conventional Commit
@@ -221,6 +205,22 @@ Presents all proposed changes for confirmation before writing anything.
 | Skill | Notes |
 |-------|-------|
 | `/standards-ai:audit-violations` | Audits all entries in the violations register |
+
+### `/standards-ai:sync`
+
+Updates a project's template files from a local checkout of this repository.
+Compares version markers, lists the changelog entries between the two
+versions, and reports what each file copy would change.
+
+Before copying, it checks each file against the version the project
+originally received and quotes any local edit that overwriting would
+discard — the one thing a straight `cp` loses silently. `project.md` and
+`review-violations.md` are never touched.
+
+| Skill | Notes |
+|-------|-------|
+| `/standards-ai:sync <path>` | Path to a standards.ai checkout |
+| `/standards-ai:sync` | Asks for the path |
 
 ## Agents
 
@@ -289,10 +289,10 @@ templates/
             SKILL.md           # Pre-commit checklist skill
           commit/
             SKILL.md           # Atomic commit splitting and message writing
-          sync/
-            SKILL.md           # Template update skill
           audit-violations/
             SKILL.md           # Violations register maintenance skill
+          sync/
+            SKILL.md           # Template update skill
         agents/
           system-architect.md  # Sub-agent for architectural guidance and design
           code-reviewer.md     # Sub-agent for correctness and security review
