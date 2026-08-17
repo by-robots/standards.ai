@@ -16,6 +16,19 @@ versioning follows [Semantic Versioning](https://semver.org/):
 
 ### Added
 
+- `/standards-ai:security-audit` — a whole-repository security audit. It is the
+  only thing in the plugin that inspects the repository rather than a change,
+  so it is the only one that can find a vulnerability nobody is currently
+  touching. It maps the attack surface before reading anything and audits what
+  the entry points reach, rather than sweeping every file; delegates dependency
+  CVEs and secret scanning to the ecosystem's tools and reports an uninstalled
+  tool as not run; requires every finding to trace from a named entry point to
+  a sink; and summarises in the response, offering a detailed report rather
+  than writing one unprompted.
+- `.claude/security-exceptions.md` — the suppression register for that skill.
+  Separate from `review-violations.md` because a security exception needs a
+  sign-off and an expiry date, and lapsed entries are reported again.
+
 - `evals/` — a first `claude plugin eval` suite of five cases covering the
   review-routing boundary, the commit and fix-bug workflows, and the two new
   security rules, plus `scaffold.sh` to build each case's working directory.
