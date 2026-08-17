@@ -22,6 +22,8 @@ versioning follows [Semantic Versioning](https://semver.org/):
   the existing destructive-operations rule did not reach.
 - Git rules against committing unprompted and against committing directly to
   the default branch.
+- Claude Code rules against creating unrequested files and against starting
+  long-running processes without asking.
 
 ### Changed
 
