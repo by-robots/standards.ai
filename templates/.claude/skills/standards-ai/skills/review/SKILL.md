@@ -15,7 +15,7 @@ problems that no rule covers — that is the `code-reviewer` agent.
 
 ## Instructions
 
-1. List the rule files: `.claude/rules/` (recursively), plus `CLAUDE.md`, any file it imports, and `.claude/project.md`. Read each rule file's frontmatter to get its `paths:` patterns. A rule file with no `paths:` applies to every file; one with `paths:` applies only to files matching those globs.
+1. List the rule files: `.claude/rules/` (recursively), plus `CLAUDE.md`, any file it imports, and `.claude/project.md`. Read each one in full — the `paths:` frontmatter tells you when a rule applies, but you need its text to check compliance, and a scoped rule will not have loaded itself for files you have not opened. A rule file with no `paths:` applies to every file; one with `paths:` applies only to files matching those globs.
 2. If `$ARGUMENTS` is provided, list the files at that path. Otherwise, run `git diff --name-only --cached` to get the list of staged files. Do not read the files under review yet.
 3. If more than 20 files are in scope, report the count and ask which subset to review before reading any of them.
 4. Match each file under review against the `paths:` patterns to build its rule set. Do not infer applicability from the rule file's title — a file matching no pattern of a scoped rule is not checked against it, and a rule with no `paths:` is always checked.

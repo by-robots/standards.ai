@@ -137,9 +137,10 @@ you choose to accept; symlinking keeps every project current at the cost of
 rules changing under you the moment you commit to standards.ai. Mixing the two
 is fine — symlink your own projects, copy the shared ones.
 
-Either way, if you installed the plugin in step 1 do not also copy
-`.claude/skills/standards-ai/` into the project. Both at once loads the skills
-twice.
+Neither option copies the skills — those came from the plugin in step 1. If
+you skipped step 1 and want the skills without installing the plugin, copy
+`templates/.claude/skills/standards-ai/` into the project as well; do not do
+both, or the skills load twice.
 
 ### 3. Fill in the project file
 
@@ -191,9 +192,10 @@ that project rules win over shared ones. Everything else lives in
 | `.claude/rules/*.md` | The shared rules, one topic per file | Overwritten |
 | `.claude/project.md` | **About This Project**, **Project Context**, **Project Overrides** | Never overwritten |
 
-Files are numbered so the most critical are read first. The first eight load
-every session; the rest carry `paths:` frontmatter and load only when Claude
-touches a file they match:
+Files are numbered most-critical-first. Claude Code does not document the
+order it reads them in, so treat the numbering as intent rather than a
+guarantee. The first eight load every session; the rest carry `paths:`
+frontmatter and load only when Claude touches a file they match:
 
 | Always loaded | Scoped to |
 |---|---|
@@ -277,9 +279,10 @@ approach or the other; both at once loads the skills twice.
 
 ### `/standards-ai:about`
 
-Populates the **About This Project** and **Project Context** sections of your
-rules file from project signals — README, package manifests, version files, and
-deployment config. Run it once after adding the rules to a new project.
+Populates the **About This Project** and **Project Context** sections of
+`.claude/project.md` from project signals — README, package manifests, version
+files, and deployment config. Run it once after adding the rules to a new
+project.
 
 Presents a draft for confirmation before writing anything. Pass a hint if the
 project isn't self-describing from its files alone.
@@ -317,9 +320,9 @@ Fixes a bug using a test-first workflow: reproduce, write a failing test,
 confirm it fails, implement the smallest fix, and run the scoped tests. Stops
 and reports rather than thrashing if the fix does not land after two attempts.
 
-The same workflow is required by the rules in `CLAUDE.md`; the skill makes it
-an explicit step-by-step procedure, which smaller models follow more reliably
-than a standalone rule.
+The same workflow is required by `.claude/rules/04-testing.md`; the skill
+makes it an explicit step-by-step procedure, which smaller models follow more
+reliably than a standalone rule.
 
 | Skill | Notes |
 |-------|-------|
@@ -372,7 +375,7 @@ repository. Compares version markers, lists the changelog entries between the
 two versions, and reports what each file copy would change.
 
 Only relevant to projects that copied the rules (Option A). Projects using the
-import always read the current version, and the plugin updates through
+symlink always read the current version, and the plugin updates through
 `/plugin update`.
 
 Before copying, it checks each file against the version the project
@@ -457,7 +460,7 @@ templates/
       25-database.md
       26-dependencies.md
     skills/
-      standards-ai/            # Skills-directory plugin (loads as standards-ai)
+      standards-ai/            # The plugin: installed via marketplace.json below
         .claude-plugin/
           plugin.json          # Plugin manifest
         skills/

@@ -52,7 +52,7 @@ versioning follows [Semantic Versioning](https://semver.org/):
 - `/standards-ai:commit` — splits changes into atomic commits and writes
   Conventional Commit messages, with approval before staging. Pairs with
   `preflight`, which checks the same changes but commits nothing.
-- `/standards-ai:sync` — updates a project's template files from a local
+- `/standards-ai:sync` — updates a project's copied rule files from a local
   checkout, reporting the changelog entries between the two versions and
   quoting any local edit the copy would overwrite.
 
@@ -65,16 +65,15 @@ versioning follows [Semantic Versioning](https://semver.org/):
 - The rule against removing code now exempts refactor, cleanup and removal
   tasks, where the blanket version guaranteed dead code accumulated and
   every session ended with a manual approval list.
-- Testing rules moved out of "Language & Framework" into their own
-  **Testing** section. No wording changed; five of that section's rules were
-  about tests and being buried there weakened them.
+- Testing rules are their own file rather than being buried among the
+  language and framework rules. No wording changed.
 - `review`, `preflight` and the `code-reviewer` agent now state their
   boundaries in the descriptions the model routes on, so an ambiguous
   "review my changes" no longer picks one at random. The agent asks which
   the user wants instead of defaulting to the expensive path.
-- `review` scopes each file to the rule sections that can apply to its type
-  rather than sweeping every rule against every file, and asks before
-  reading more than 20 files. This addresses the token cost the README
+- `review` checks each file only against the rules whose `paths:` frontmatter
+  matches it, rather than sweeping every rule against every file, and asks
+  before reading more than 20 files. This addresses the token cost the README
   previously only warned about.
 - `code-reviewer` and `system-architect` no longer pin `model: opus`. A
   hardcoded model name ages badly in a template distributed across projects.
@@ -82,8 +81,10 @@ versioning follows [Semantic Versioning](https://semver.org/):
 
 ### Fixed
 
-- The documented install command nested a second `.claude` directory inside
-  an existing one. Corrected to `cp -R templates/.claude/. <dest>/.claude/`.
+- The documented install command nested a second directory inside an existing
+  one, and copied `project.md` before anything created `.claude/`. The
+  sequence now creates the directory first and uses `cp -n` so a
+  hand-written `project.md` is never overwritten.
 - The README claimed the language-specific rules lived in `CLAUDE.md` and
   told users to delete the sections they did not need, contradicting the
   copy-over update model.
@@ -91,21 +92,28 @@ versioning follows [Semantic Versioning](https://semver.org/):
 ### Migrating from 1.0.0
 
 1.0.0 kept every rule in a single `CLAUDE.md`, alongside Communication Style,
-Commit Style and Language Conventions in `project.md`. 2.0.0 replaces
-`CLAUDE.md` with a thin entry point and moves all of it into
-`.claude/rules/`, so the copy leaves duplicates behind in the two files it
-does not overwrite.
+Commit Style and Language Conventions in `project.md`. 2.0.0 moves all of it
+into `.claude/rules/` and reduces `CLAUDE.md` to a nine-line entry point.
 
-After copying:
+**Before copying anything**, diff your existing `CLAUDE.md` against
+`git show v1.0.0:templates/CLAUDE.md`. Anything that differs is a rule you
+customised, and the new `CLAUDE.md` will not contain it — the rules live in
+`.claude/rules/` now. Carry those edits across to the matching rule file, or
+to **Project Overrides** in `project.md` if they are specific to the project.
 
-1. Remove the Communication Style, Commit Style and Language Conventions
+Then:
+
+1. Replace `CLAUDE.md` with the new one, or append it if the file also holds
+   project instructions of your own. Delete the duplicated `# CLAUDE.md`
+   heading if you appended.
+2. Remove the Communication Style, Commit Style and Language Conventions
    sections from `project.md`. They are now rule files. Move anything you had
    customised into the new **Project Overrides** section so it survives the
    next update.
-2. Check the `paths:` frontmatter in `.claude/rules/2*.md` against this
+3. Check the `paths:` frontmatter in `.claude/rules/2*.md` against this
    project's layout. The globs assume conventional directory names, and a
    pattern that matches nothing fails silently rather than erroring.
-3. If you install the plugin from the marketplace, delete
+4. If you install the plugin from the marketplace, delete
    `.claude/skills/standards-ai/` — keeping both loads the skills twice.
 
 Every later update is a straight file copy, or nothing at all if you symlink

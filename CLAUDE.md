@@ -2,9 +2,10 @@
 
 ## About This Repository
 
-This repository contains a template rule file for Claude Code. The template
-is copied into other projects to define how Claude should behave when building
-software. The template itself is the product — not application code.
+This repository contains two things: a rules template for Claude Code, copied
+or symlinked into other projects to define how Claude should behave when
+building software, and a plugin of skills and agents installed from this repo
+as a marketplace. Both are the product — there is no application code here.
 
 ## Working on This Repository
 
@@ -90,7 +91,7 @@ templates/
     project.md         # Per-project content (About, Context, Overrides)
     rules/             # The shared rules, one topic per numbered file
     skills/
-      standards-ai/    # Skills-directory plugin bundling the skills and agents
+      standards-ai/    # The plugin: skills and agents, installed via marketplace
 .claude-plugin/
   marketplace.json     # Marketplace catalogue pointing at the plugin above
 .claude/skills/        # Project-level skills for this repository
