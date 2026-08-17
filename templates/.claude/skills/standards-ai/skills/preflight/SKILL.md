@@ -1,6 +1,6 @@
 ---
 name: preflight
-description: Run the project's linter and scoped tests against staged changes, then check the diff for debug statements, secrets, documentation impact, and commit atomicity. Use immediately before committing. Does not sweep the CLAUDE.md rules (use the review skill) or hunt for bugs (use the code-reviewer agent).
+description: Run the project's linter and scoped tests against staged changes, then check the diff for debug statements, secrets, documentation impact, and commit atomicity. Use immediately before committing. Does not sweep the project's rules (use the review skill) or hunt for bugs (use the code-reviewer agent).
 ---
 
 Run a pre-commit checklist against the staged changes.
@@ -9,7 +9,7 @@ Run a pre-commit checklist against the staged changes.
 - `/standards-ai:preflight` — checks staged changes; stages and commits nothing itself
 
 **Scope:** tooling and diff hygiene only. Do not sweep the rules in
-`CLAUDE.md` — that is `/standards-ai:review`. The hygiene checks below are
+`.claude/rules/` — that is `/standards-ai:review`. The hygiene checks below are
 fixed; run them as written rather than expanding them into a rule audit.
 
 ## Instructions
