@@ -20,6 +20,8 @@ versioning follows [Semantic Versioning](https://semver.org/):
   transcript, treating fetched or third-party content as instructions, and
   outward-facing operations (push, deploy, publish, remote migrations) that
   the existing destructive-operations rule did not reach.
+- Git rules against committing unprompted and against committing directly to
+  the default branch.
 
 ### Changed
 
