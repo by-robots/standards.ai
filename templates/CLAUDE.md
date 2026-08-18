@@ -1,4 +1,4 @@
-<!-- standards-ai template v2.0.0 — https://github.com/by-robots/standards.ai -->
+<!-- standards-ai template v2.1.0 — https://github.com/by-robots/standards.ai -->
 
 # CLAUDE.md
 

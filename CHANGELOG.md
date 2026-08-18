@@ -14,6 +14,8 @@ versioning follows [Semantic Versioning](https://semver.org/):
 
 ## [Unreleased]
 
+## [2.1.0] — 2026-08-18
+
 ### Added
 
 - `/standards-ai:security-audit` — a whole-repository security audit. It is the
