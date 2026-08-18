@@ -36,6 +36,15 @@ versioning follows [Semantic Versioning](https://semver.org/):
   account it was written on. See `evals/README.md` for what is verified and
   what is inferred.
 
+- Four rules against sycophancy, extending the existing counter-argument rule
+  from proposal time to the three moments it did not cover. In
+  `01-communication.md`: re-check before conceding when the user disputes an
+  answer, correct a wrong premise before answering the question built on it,
+  and judge work the same whether or not the request invites agreement. In
+  `03-general.md`: name a bad existing pattern before following it. Each keeps
+  the escape hatch of the rule it extends — none of them requires an objection
+  to exist.
+
 ## [2.0.0] — 2026-08-17
 
 ### Added
