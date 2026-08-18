@@ -9,7 +9,7 @@
     {
       "name": "standards-ai",
       "source": "./templates/.claude/skills/standards-ai",
-      "description": "Review, preflight, commit, bug-fixing and project-setup skills, plus code-reviewer and system-architect agents."
+      "description": "Review, preflight, commit, bug-fixing and project-setup skills, plus code-reviewer, system-architect and second-opinion agents."
     }
   ]
 }

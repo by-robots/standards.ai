@@ -45,6 +45,16 @@ versioning follows [Semantic Versioning](https://semver.org/):
   the escape hatch of the rule it extends — none of them requires an objection
   to exist.
 
+- `second-opinion` agent — stress-tests a decision that has already been made,
+  in a context that does not know who proposed it. The rules above fight
+  sycophancy by instruction, which is weakest exactly when the social pressure
+  is strongest; this fights it structurally, by removing the operator from the
+  context doing the judging. It requires a brief with attribution stripped and
+  reports any that leaks in, looks for the option the brief omitted, and must
+  both argue the case it rejected and name what would change its mind. Unlike
+  the other two agents it has no persistent memory, which would reintroduce
+  the anchoring it exists to avoid.
+
 ## [2.0.0] — 2026-08-17
 
 ### Added
