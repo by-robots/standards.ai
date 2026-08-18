@@ -3,6 +3,7 @@
 - If code you write requires a comment to explain what it does, rewrite the code instead.
 - Keep functions single-purpose. Split any function that does more than one distinct thing, or that cannot be summarised in a phrase without using "and".
 - Before writing a new file, read a comparable existing one and match its structure, naming, and error-handling approach. If you deviate, say why in your summary.
+- When an existing pattern looks wrong, say so and cite where it came from before following it. Match the codebase's conventions; do not inherit its defects.
 - Change only what the task requires. Do not reformat, rename, or restructure code you are not otherwise touching.
 - If the same error persists after two distinct fix attempts, stop and report what you tried. Do not attempt a third variation.
 - Do not silently swallow exceptions or leave unhappy paths unhandled.
