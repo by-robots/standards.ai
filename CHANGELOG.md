@@ -14,6 +14,23 @@ versioning follows [Semantic Versioning](https://semver.org/):
 
 ## [Unreleased]
 
+### Added
+
+- Two communication rules covering response shape rather than tone. "Lead with
+  the conclusion" fixes the ordering of an answer — the conclusion first,
+  reasoning after — which is checkable by reading the first sentence. "Do not
+  explain what a language feature, standard library function, or well-known
+  tool does unless asked" is the enforceable form of treating the reader as a
+  peer: it names the artefact to look for rather than a posture, and scopes to
+  the project's stack so an unfamiliar third-party library still gets
+  explained.
+
+  Deliberately excluded from both: instructions to be "efficient" or to "skip
+  filler". They are not testable — nothing in the output can be identified as
+  filler by the model producing it — and the compression pressure conflicts
+  with the existing rules requiring a counter-argument before agreement and a
+  statement of what was verified before reporting completion.
+
 ## [2.1.0] — 2026-08-18
 
 ### Added
