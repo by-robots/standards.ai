@@ -432,8 +432,10 @@ discard — the one thing a straight `cp` loses silently. `project.md`,
 ## Agents
 
 Agents are specialised sub-agents that Claude Code can delegate work to. Unlike
-skills, they run autonomously with their own context, tools, and persistent
-memory — suited to tasks that require sustained focus on a single concern.
+skills, they run autonomously with their own context and tools — suited to
+tasks that require sustained focus on a single concern. Two of the three also
+keep persistent memory across sessions; `second-opinion` deliberately does
+not.
 
 The agents ship inside the `standards-ai` plugin alongside the skills and are
 discovered automatically when the plugin loads.
@@ -465,16 +467,46 @@ Unlike the review skill, it reads every rule file in full rather than relying
 on path scoping. It reviews files it did not otherwise open, so scoped rules
 would never have loaded themselves.
 
-Both agents inherit the session's model rather than pinning one, so they stay
-current as models change. If you routinely work on a smaller model, add a
-`model:` line to an agent's frontmatter to pin a stronger one for that agent.
-
 Distinct from `/standards-ai:review`: the skill is a fast, mechanical
 rule-compliance check suited to pre-commit use, while the agent applies
 judgement to correctness and security and costs more to run. Both respect the
 accepted violations recorded in `.claude/review-violations.md`. When a request
 is ambiguous between the two, the agent asks rather than assuming — see
 [Which review do I want?](#which-review-do-i-want).
+
+### `second-opinion`
+
+Stress-tests a decision that has already been made, or is being leaned
+towards. Not restricted to architecture: dependency choices, refactor timing,
+test strategy, and data models all qualify.
+
+Its value is structural rather than instructional. A model asked to challenge
+a decision it watched you argue for is being asked to override the social
+pressure it just absorbed; a model that never saw who proposed what has no
+pressure to override. So the agent must be briefed with the options stripped
+of attribution — no "the user wants", no "the current plan is", no ordering
+that reveals a preference. If attribution leaks into the brief anyway, the
+agent reports that at the top of its answer rather than pretending it did not
+see it.
+
+Two behaviours guard the opposite failure, where an agent invented to
+disagree disagrees on principle. It must give the strongest case for the
+option it rejected, and it must state what would change its mind. It is also
+told directly that a short agreement is a valid result.
+
+Alone among the three, it has **no persistent memory**, and that omission is
+the point — memory of earlier decisions would reintroduce the anchoring the
+fresh context exists to remove. The agent file says so in a comment, so the
+inconsistency does not look like an oversight to be tidied up.
+
+Distinct from `system-architect`: the architect produces a design where none
+exists, while this agent tests a conclusion that already does. If nothing has
+been decided, there is nothing to second-guess and the architect is the right
+call.
+
+All three agents inherit the session's model rather than pinning one, so they
+stay current as models change. If you routinely work on a smaller model, add a
+`model:` line to an agent's frontmatter to pin a stronger one for that agent.
 
 ## Repository structure
 
@@ -525,6 +557,7 @@ templates/
         agents/
           system-architect.md  # Sub-agent for architectural guidance and design
           code-reviewer.md     # Sub-agent for correctness and security review
+          second-opinion.md    # Sub-agent for stress-testing a decision
 .claude-plugin/
   marketplace.json             # Marketplace catalogue, for installing the plugin
 evals/                         # claude plugin eval suite (see evals/README.md)
